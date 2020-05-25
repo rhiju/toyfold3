@@ -13,3 +13,7 @@ _Author: Rhiju Das, 2020_
 * Intended to be a port of [ToyFold 2D](https://github.com/rhiju/toyfold2_rhiju/) to the 'real world', RNA folding in three dimensions
 * Manipulation of SE(3) transforms for RNA inspired by [loop_close](https://github.com/rhiju/loop_close) repo (and `6D loop_close` implementation in Rosetta). 
 * Starting with backbone conformational preferences drawn from ribosomal RNA
+
+## Important TODO
+* Dependence on frame choice -- see notes/ for possible solutions and cross-checks.
+* KDE issue -- see notes/ for possible solutions and cross-checks.
