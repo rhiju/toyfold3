@@ -1,9 +1,11 @@
-pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
-[ctr,M] = get_frames( pdbstruct );
+%pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
+pdbstruct = pdbread( '../data/4ybb_23S.pdb');
+%%
+[ctr,M,chainbreak] = get_frames( pdbstruct );
 cla; draw_trace( ctr, M );
 
 %%
-[t,R] = get_transform_library(ctr, M);
+[t,R] = get_transform_library(ctr, M, chainbreak);
 
 %% Cool let's generate a random trajectory
 N = 100;
