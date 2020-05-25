@@ -54,7 +54,6 @@ cla
 %plot3( xyz(:,1),xyz(:,2),xyz(:,3),'o'); hold on
 draw_trace( ctr, M );
 
-
 %%
 % get frame-to-frame transforms
 t = []; % translations
@@ -66,31 +65,38 @@ end
 
 
 %% 
-% Cool let's generate a bunch of random trajectories
-N = 100; % number of steps
-x = zeros(3,N); m = zeros(3,3,N);
-x(:,1) = [0,0,0]; % trajectory
-m(:,:,1) = [1 0 0; 0 1 0; 0 0 1]; % orthonormal coordinate frame
-ntransforms = size(t,2);
-for n = 2:N
-    j = randi(ntransforms);
-    %j = n+20; %randi(ntransforms);
-    x(:,n)  = x(:,n-1) + m(:,:,n-1)*t(:,j);
-    m(:,:,n)= m(:,:,n-1)*R(:,:,j);
-        
-% Sanity check:
-% ctr2 == ctr1 + M1*t
+% Cool let's generate a random trajectory
+N = 100;
+[x,m] = get_random_trace(N, t, R );
 
-end
-cla
-draw_trace(x,m)
+%%
+% Let's get some statistics, and estimate return probability (C_eff for
+% circular RNA)
 
+%which_N = [2:9 10:5:40];
+N = 2; % number of steps
 
+NITER = 1000;
+[pts_x,pts_m] = get_pts_forward( NITER, N, t, R);
 
+cla;plot3( pts_x(1,:),pts_x(2,:),pts_x(3,:),'o'); axis equal
+% then collect histograms
      
-    
-    
-    
+  
+% try KDE-based calc of C_eff
+% convert 3x3 rotation matrices to angle-axis (Euler vector)
+pts_EV=SpinCalc('DCMtoEV',pts_m,0,0);  % output is unit vector, angle in degrees
+pts_EV3 = [];
+% convert to axis vector v_x,v_y,v_z; with length equal to rotation angle in radians
+for n = 1:size( pts_EV,1); pts_EV3(n,:) = pts_EV(n,1:3) * pts_EV(n,4) * pi/180.0; end;   
+
+% points in 6D SE(3) space: x,y,z, v_x, v_y, v_z 
+pts_f = [pts_x', pts_EV3];
+
+s = get_kde_bandwidth( pts_f );
+pts_r = [0,0,0,0,0,0];
+p = mvksdensity(pts_f,pts_r,'Bandwidth',s)'
+
     
     
     

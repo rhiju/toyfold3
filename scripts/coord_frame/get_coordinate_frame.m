@@ -11,8 +11,8 @@ z = b - a;
 z = z/norm(z);
 
 x = c - b;
-x = x/norm(x);
 y = cross( z,x );
+y = y/norm(y);
 
 x = cross(y,z);
 
