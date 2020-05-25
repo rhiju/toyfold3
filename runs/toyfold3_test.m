@@ -100,7 +100,7 @@ for i = 1:length(which_N)
     
 end
 %%
-C_eff = 8*pi^2*p;
+C_eff = p/(1/(8*pi^2)*6.022e23/1e27 );
 plot( which_N, C_eff,'o' );set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
 title('Effective molarity for circularization' );
     

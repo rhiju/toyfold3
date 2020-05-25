@@ -73,19 +73,30 @@ Generate random traces with these O5\'92 \'97> O5\'92 transforms:\
 Fixed an error above in deriving frames (forgot to normalize y vector)\
 Copied/pasted in KDE code from toyfold2 (get_kde_bandwidth & get_C_eff_from_pts) to estimate density at 0,0,0,0,0,0. \
 Works! \
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 9.48.42 AM.png \width17160 \height5760
-}¬}\
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 10.57.51 AM.png \width17420 \height5680
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 TODO\
+\cf0 \
+Jumps up to near 20 mM ar N~8!  \
+Expect > 1 uM for N~few 100, since that\'92s the basis of circularization of strands for sequencing assays \'97> checks out.\
+\
+TODO\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \'95\'a0read in full 4ybb 23S as fragment source\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \'95\'a0Switch coordinate frames from O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 to avoid phosphate & gamma defining coordinate frame \'97> note conceptual error above \
+\cf0 \'95\'a0fix molar conversion DONE\
 \'95 Document all scripts\
 \'95 separate out toyfold2 import scripts into separate subdirectory\
+\'95\'a0read in full 4ybb 23S as fragment source\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \'95\'a0Switch coordinate frames from O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 to avoid phosphate & gamma defining coordinate frame \'97> note conceptual error above \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \'95\'a0check chain when assigning atoms\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \'95\'a0put in chain break filter (record o3\'92 and p xyz)\
 \'95 create reverse trajectories (quickest may be to write reverse_transform function). Use KDE cross check on C_eff.\
-\'95\'a0Write circular trajectory sampler\
+\'95\'a0Write circular trajectory sampler, again copy of toy fold work\
 \
 \
 \
