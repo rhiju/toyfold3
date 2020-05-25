@@ -48,10 +48,11 @@ end
 %Set up coordinate frames
 ctr = []; M = [];
 for n = 1:size( o5prime, 1 );
-    ctr(:,n) = o5prime(n,:)';
-    M(:,:,n) = get_coordinate_frame( o5prime(n,:), c5prime(n,:), c4prime(n,:) );
+    ctr(:,n) = c5prime(n,:)';
+    M(:,:,n) = get_coordinate_frame( c5prime(n,:), c4prime(n,:), c3prime(n,:) );
 end
 
+% detect chainbreaks
 chainbreak = zeros( 1, size( o5prime, 1 ) );
 chainbreak(end) = 1;
 for n = 1:(size( o5prime, 1 )-1);

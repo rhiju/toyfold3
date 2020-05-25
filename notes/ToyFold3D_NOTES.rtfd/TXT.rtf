@@ -2,9 +2,9 @@
 {\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 Helvetica;
 }
 {\colortbl;\red255\green255\blue255;\red53\green53\blue53;\red0\green0\blue0;\red255\green255\blue255;
-}
+\red255\green0\blue0;}
 {\*\expandedcolortbl;;\cssrgb\c27059\c27059\c27059;\csgray\c0;\csgray\c100000;
-}
+\csgenericrgb\c100000\c0\c0;}
 \margl1440\margr1440\vieww17600\viewh18300\viewkind0
 \deftab560
 \pard\pardeftab560\slleading20\partightenfactor0
@@ -62,7 +62,7 @@ Capture coordinate systems set up on O5\'92  \
 Point z-vectors from O5\'92 to C5\'92 (thick black), and x vectors out from O5\'92 to C4\'92 (thin black). Below also show y as gray very thin.  \
 This is the \'93landing\'94 coordinate frame that I used in loop_close.\
 \
-So: transforms that go from one landing frame to the next capture: delta, (chi), epsilon, zeta, alpha, beta, gamma, which should hopefully capture delta-epsilon, delta-chi, and zeta-alpha correlations.\
+So: transforms that go from one landing frame to the next capture: delta, (chi), epsilon, zeta, alpha, beta, gamma, which should hopefully capture delta-epsilon, delta-chi, and zeta-alpha correlations. \cf5 NOTE ERROR \'97 SHOULD USE C5\'92-C4\'92-C3\'92 traces; fixed below.\cf0 \
 \
 \
 Generate random traces with these O5\'92 \'97> O5\'92 transforms:\
@@ -94,13 +94,21 @@ TODO\
 \'95 separate out toyfold2 import scripts into separate subdirectory 
 \b DONE
 \b0 \
-\'95\'a0read in full 4ybb 23S as fragment source\
+\'95\'a0read in full 4ybb 23S as fragment source 
+\b DONE
+\b0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \'95\'a0Switch coordinate frames from O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 to avoid phosphate & gamma defining coordinate frame \'97> note conceptual error above \
+\cf0 \'95\'a0Switch coordinate frames from O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 to avoid phosphate & gamma defining coordinate frame \'97> note conceptual error above 
+\b DONE
+\b0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \'95\'a0check chain when assigning atoms\
+\cf0 \'95\'a0check chain when assigning atoms 
+\b DONE
+\b0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \'95\'a0put in chain break filter (record o3\'92 and p xyz)\
+\cf0 \'95\'a0put in chain break filter (record o3\'92 and p xyz) 
+\b DONE
+\b0 \
 \'95 create reverse trajectories (quickest may be to write reverse_transform function). Use KDE cross check on C_eff.\
 \'95\'a0Write circular trajectory sampler, again copy of toy fold work\
 \
@@ -122,13 +130,65 @@ But computation of C_eff remains fast: \
 \cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.03.00 PM.png \width10320 \height8600
 }¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
+\
+\ul Switch to C5\'92-C4\'92-C3\'92 triad\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \ulnone Trajectories look more intuitive\'85\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.13.29 PM.png \width5120 \height6320
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.13.43 PM.png \width5260 \height7180
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+But C_eff is lower by ~2x. Why is that? And noisier?\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.16.12 PM.png \width10100 \height8680
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Oh it might have to do with not using sin^2(q)/q^2 weighting\'85 [uh but that should be unity at origin].\
+\
+\
+Try overlap based  KDE computation. Pretty fast, just like in ToyFold 2D calls\'97 able to just run 2000 cycles\
+Getting poor agreement when coming in from different sides, e.g. for 10-nt loop, with jumps who going all the way around\'85\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 1.17.10 PM.png \width10300 \height5800
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 About a 2x jump! Note that left-hand-most points above correspond to precious calculations \
+for full 10-mer finding origin (0,0,0,0,0,0). Above is only for 10-nt loop.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+If we compare overlap from f/r for different size loops using n/2 and n/2 for steps forward and reverse, seeing \
+a systematic underestimation compared to more costly full calculations above:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 1.16.35 PM.png \width9760 \height5600
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+
+\b Current paradoxes:
+\b0 \
+\'95 Why did changing coordinate frame form O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 results in a drop of C_eff by factor of two? Should actually be able to figure this out with extremely small fragment library, or even an artificial \'91model library\'92. Could be some weirdo correlation between gamma and delta, perhaps due to helix/loop sections in fragments?\
+\'95 Why does overlap calculation underestimate true C_eff? May have something to do with hard boundaries of Euler vector space at +/-pi? But how could we re-center? Do we need SE(3) KDE, e.g. nuklei? http://nuklei.sourceforge.net/doxygen/\
+\
+
+\i Should we still barrel forward with backtracing?\
+
+\i0 \
 \
 \
 \
 \
 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 \
 }
