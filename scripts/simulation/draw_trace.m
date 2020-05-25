@@ -1,4 +1,12 @@
 function draw_trace( ctr, M );
+% draw_trace( ctr, M );
+%
+% Draw trace with coordinate frames.
+%
+%  ctr = [3 x N] coordinates of a random trace
+%  M   = [3 x 3 x N] orthonormal frames of a random trace
+%
+% (C) R. Das, Stanford 2020
 
 plot3( ctr(1,:), ctr(2,:),ctr(3,:),'linew',2 ); hold on
 for n = 1:size( ctr, 2 );

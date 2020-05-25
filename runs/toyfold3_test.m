@@ -72,35 +72,23 @@ N = 100;
 %%
 % Let's get some statistics, and estimate return probability (C_eff for
 % circular RNA)
-
-which_N = [2:9 10:5:40, 2:9 10:5:40, 50:10:100];
+which_N = 10; %[2:9 10:5:40, 2:9 10:5:40, 50:10:100];
 NITER = 20000;
 for i = 1:length(which_N)
     N = which_N(i); % number of steps
     
-    [pts_x,pts_m] = get_pts_forward( NITER, N, t, R);
+    pts_f = get_pts_forward( NITER, N, t, R);
     
-    cla;plot3( pts_x(1,:),pts_x(2,:),pts_x(3,:),'o'); axis equal
+    %cla;plot3( pts_f(1,:),pts_f(2,:),pts_f(3,:),'o'); axis equal
     % then collect histograms
-    
-    
-    % try KDE-based calc of C_eff
-    % convert 3x3 rotation matrices to angle-axis (Euler vector)
-    pts_EV=SpinCalc('DCMtoEV',pts_m,0,0);  % output is unit vector, angle in degrees
-    pts_EV3 = [];
-    % convert to axis vector v_x,v_y,v_z; with length equal to rotation angle in radians
-    for n = 1:size( pts_EV,1); pts_EV3(n,:) = pts_EV(n,1:3) * pts_EV(n,4) * pi/180.0; end;
-    
-    % points in 6D SE(3) space: x,y,z, v_x, v_y, v_z
-    pts_f = [pts_x', pts_EV3];
-    
+        
     s = get_kde_bandwidth( pts_f );
     pts_r = [0,0,0,0,0,0];
     p(i) =  mvksdensity(pts_f,pts_r,'Bandwidth',s)';
     
 end
 %%
-C_eff = p/(1/(8*pi^2)*6.022e23/1e27 );
+C_eff = p/(1/(8*pi^2)*6.022e23/1e27 )
 plot( which_N, C_eff,'o' );set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
 title('Effective molarity for circularization' );
     

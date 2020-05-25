@@ -1,4 +1,20 @@
 function [x,m] = get_random_trace(N, t, R, drawit );
+% [x,m] = get_random_trace(N, t, R, drawit );
+%
+% Coordinates of random trace,
+%  starting from (0,0,0) and standard rotation frame.
+%
+% Inputs
+%  N = number of nucleotides. (Number of steps is this number -1 )
+%  t = [3 x Nframes] library of translations from nt to nt. 
+%  R = [3 x 3 x Nframes] library of rotations from nt to nt. 
+%  drawit = draw random trace with coordinate frames [default = 1]
+%
+% Output
+%  x = [3 x N] coordinates of a random trace
+%  m = [3 x 3 x N] orthonormal frames of a random trace
+%
+% (C) R. Das, Stanford 2020
 
 if ~exist( 'drawit', 'var' ) drawit = 1; end;
 
