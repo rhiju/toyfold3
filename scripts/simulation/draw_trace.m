@@ -3,8 +3,8 @@ function draw_trace( ctr, M );
 %
 % Draw trace with coordinate frames.
 %
-%  ctr = [3 x N] coordinates of a random trace
-%  M   = [3 x 3 x N] orthonormal frames of a random trace
+%  ctr = [3 x N] coordinates of a  trace
+%  M   = [3 x 3 x N] orthonormal frames of a  trace
 %
 % (C) R. Das, Stanford 2020
 
@@ -20,4 +20,5 @@ end
 
 axis equal
 axis off
+axis vis3d
 set(gcf, 'PaperPositionMode','auto','color','white');
