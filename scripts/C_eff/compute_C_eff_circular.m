@@ -28,7 +28,11 @@ for i = 1:length(which_N)
     s = get_kde_bandwidth( pts_f );
     pts_r = [0,0,0,0,0,0];
 
+    % note there is no sinc(v/2)^2 volume element factor at (0,0,0) in
+    % SO(3)!
+    tic
     p(i) =  mvksdensity(pts_f,pts_r,'Bandwidth',s)';
+    toc
 end
 
 C_eff = p/(1/(8*pi^2)*6.022e23/1e27 );

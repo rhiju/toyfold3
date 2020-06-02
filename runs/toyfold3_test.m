@@ -14,7 +14,7 @@ N = 100; % number of nucleotides, steps is N-1.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Let's get some statistics, and estimate return probability 
 % (C_eff for circular RNA)
-which_N = [2:9 10:5:40, 2:9 10:5:40, 50:10:100]; NITER = 20000;
+which_N = [2:9 10:5:40, 2:9 10:5:40, 50:10:100]; NITER = 100000;
 %which_N = [2:12, 2:12]; NITER = 100000;
 C_eff = compute_C_eff_circular(NITER, which_N, t, R);
 %%
@@ -26,11 +26,11 @@ title('Effective molarity for circularization' );
 %  potentially quite efficient C_eff calculator.
 %   ... though seeing some problems, likely because of edge effects
 %     at boundaries of SO(3) rotation space (+/-pi in axis-angle).
-Nmax = 100; NITER = 2000;
+Nmax = 10; NITER = 2000;
 [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
 
 %% Show overlap
-N = 10;
+N = 20;
 [C_eff_overlap_f, C_eff_overlap_r] = get_C_eff_overlap( N, all_pts_f, all_pts_r ); clf;
 plot( [C_eff_overlap_f; C_eff_overlap_r]' ); hold on   
 plot( N,mean( C_eff(find(which_N==N)) ),'x' );  

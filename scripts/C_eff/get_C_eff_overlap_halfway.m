@@ -14,7 +14,9 @@ function C_eff_overlap_halfway = get_C_eff_overlap_halfway( N_overlap, all_pts_f
 % (C) Rhiju Das, Stanford 2020
 C_eff_overlap_halfway = [];
 for k = 1:length(N_overlap)
+    tic
     N = N_overlap(k);
     i = floor(N/2);
     C_eff_overlap_halfway(k) = get_C_eff_from_pts_6D(all_pts_f{i},all_pts_r{N-i});
+    toc
 end

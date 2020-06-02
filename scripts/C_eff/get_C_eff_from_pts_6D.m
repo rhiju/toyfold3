@@ -18,10 +18,11 @@ s = get_kde_bandwidth( pts_f );
 % phase space factor for integration with euler vectors
 %  WAIT -- should I apply this or the inverse of it? 
 %  Think through this more.
-v = norm(pts_f(:,4:6)); % rotation angle
-w = ((sin(v)./v).^2); 
-%p = mean(mvksdensity( pts_f, pts_r,'Bandwidth',s, 'Weights',w));
 
-p = mean(mvksdensity( pts_f, pts_r,'Bandwidth',s) ); 
+p = mvksdensity( pts_f, pts_r,'Bandwidth',s); 
 
-C_eff = p/(1/(8*pi^2)*6.022e23/1e27 );
+v = sqrt( sum(pts_r(:,4:6).^2, 2) ); % rotation angle
+w = (sin(v/2)./(v/2)).^2; 
+
+%C_eff = mean(p)/(1/(8*pi^2)*6.022e23/1e27 );
+C_eff = mean(p./(w/(8*pi^2)))/ (6.022e23/1e27);
