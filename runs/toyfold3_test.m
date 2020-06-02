@@ -30,7 +30,7 @@ Nmax = 10; NITER = 2000;
 [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
 
 %% Show overlap
-N = 20;
+N = 10;
 [C_eff_overlap_f, C_eff_overlap_r] = get_C_eff_overlap( N, all_pts_f, all_pts_r ); clf;
 plot( [C_eff_overlap_f; C_eff_overlap_r]' ); hold on   
 plot( N,mean( C_eff(find(which_N==N)) ),'x' );  
