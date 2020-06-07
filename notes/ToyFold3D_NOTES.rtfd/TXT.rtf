@@ -287,32 +287,42 @@ And for 2-mr [cyclic dinucleotide] there may be only one solution:\
 \cf0 \
 \
 \
-\ul Let\'92s work through how to do KDE\'92s for SO(3) \
-\ulnone Check volume element.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul Let\'92s work through how to do KDE\'92s for SO(3) \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Check volume element.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
 
-\i check_rotations_test. 
+\i \cf0 check_rotations_test. 
 \i0 [copied from loop_close/ GitHub repo]\
 \
 Use \ul SpinCalc\ulnone  to generate\
 
 \i \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 
 \i0 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.30 PM.png \width7800 \height7240
-}¬}{{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.26 PM.png \width7640 \height6720
-}¬}{{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.34 PM.png \width10180 \height7980
-}¬}\
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.26 PM.png \width7640 \height6720
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.34 PM.png \width10180 \height7980
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
 \
 \
 \
 OK!\
-\ul How does KDE do?\
-\ulnone Depends on number of samples. Interestingly, overestimates/underestimates depending on number of samples, which seems OK.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul How does KDE do?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Depends on number of samples. Interestingly, overestimates/underestimates depending on number of samples, which seems OK.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.50 PM.png \width7080 \height9500
-}¬}{{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.44 PM.png \width6980 \height9420
-}¬}{{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.37 PM.png \width6960 \height9620
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.44 PM.png \width6980 \height9420
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.37 PM.png \width6960 \height9620
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
 In bottom panels above, also tried b transform to make space uniform:\
 \
@@ -323,22 +333,22 @@ Note systematic downturn at high rotation vectors, due to boundary effects at ed
 So just try to do KDE, dividing by (1/8pi^2) x sinc(v/2)^2. This corrects for downturn at high rotation vectors to give \'91true\'92 probability density per phase space volume,  dp/domega.\
 \
 OK updated my KDE overlap code for circularization \'97 better agreement between overlap-based calcs and return-to-origin calcs, which used to be off by ~2x!:\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.55 PM.png \width11120 \height5380
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.43 PM.png \width10940 \height5460
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.18.10 PM.png \width10800 \height5420
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.24 PM.png \width11380 \height5380
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
 \
 Though there\'92s still a systematic underestimation based on overlap. \
@@ -347,17 +357,67 @@ Is distribution too \'91spiky\'92 to be handled well by multivariate KDE? Lots o
 * Check if re-centering helps?\
 * Another cross-check \'97> create samples based on multi-jointed chain, where I know answer analytically from Fourier transforms.\
 * Note that circularize to origin may also be biased to be high. Probably only way to check would be lots of compute and grid-based calculations, rather than KDE.\
-\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 Also tried isometric v->b transformation before KDE. Nope \'97 leads to even *worse* underestimation. So turn off that \'91isometric\'92 flag in 
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Also tried isometric v->b transformation before KDE. Nope \'97 leads to even *worse* underestimation. So turn off that \'91isometric\'92 flag in 
 \f3\fs20 get_C_eff_from_pts_6D
 \fs24 \
 
 \f2 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.31.28 PM.png \width10020 \height8040
-}¬}\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Actually rerun above with lots of replicates\'96 after some bug fixes caught below \'97 its not too bad!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.46.56 PM.png \width13440 \height6720
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+For 10-mer \'97 actually not too bad \'97 biggest error is 1<\'97>9. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.53.34 PM.png \width13280 \height6740
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul 6 June, 2020\
+just_so3_test.m\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone How about just  SO(3) part? Can we isolate the issue?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul \ulc2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.13.11 PM.png \width10180 \height8040
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.12.53 PM.png \width10580 \height8020
+}¬}\
+\
+Some variation, though look at axis limits \'97 not much (10-20%). \
+\
+Still, may be useful. Recompute 20-mer. Caught an error where sin(q/2)/(q/2) gives nan, throws off computation of last points (circularization of 20-mer forward or reverse, back to origin)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.39 PM.png \width10380 \height7920
+}¬}\
+Note how off first point is for red. Can sort of see why \'97 trying to compare a very concentrated distribution (red, R) and diffuse distribution (blue). But discrepancy is 
+\i opposite
+\i0  of problem in SE(3) where KDE overlap underestimates \'91true\'92 [?]. Also in different direction in repeat compared to original data.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.31 PM.png \width9620 \height7840
+}¬}\
 }

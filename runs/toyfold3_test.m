@@ -14,7 +14,7 @@ N = 100; % number of nucleotides, steps is N-1.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Let's get some statistics, and estimate return probability 
 % (C_eff for circular RNA)
-which_N = [2:9 10:5:40, 2:9 10:5:40, 50:10:100]; NITER = 100000;
+which_N = [2:19 20:5:40, 2:19 20:5:40, 2:19, 2:19, 50:10:100]; NITER = 5000;
 %which_N = [2:12, 2:12]; NITER = 100000;
 C_eff = compute_C_eff_circular(NITER, which_N, t, R);
 %%
@@ -30,12 +30,12 @@ Nmax = 10; NITER = 2000;
 [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
 
 %% Show overlap
-N = 10;
+N = 5;
 [C_eff_overlap_f, C_eff_overlap_r] = get_C_eff_overlap( N, all_pts_f, all_pts_r ); clf;
 plot( [C_eff_overlap_f; C_eff_overlap_r]' ); hold on   
 plot( N,mean( C_eff(find(which_N==N)) ),'x' );  
 h = legend( 'C_eff_overlap_f','C_eff_overlap_r','overlap at 0'); set(h,'interpreter','none');
-set(gca,'fontweight','bold'); xlabel( 'n steps for overlap'); ylabel('C_{eff} (M)');
+set(gca,'fontweight','bold','xgrid','on'); xlabel( 'n steps for overlap'); ylabel('C_{eff} (M)');
 title(sprintf('Forward/reverse overlap molarity for circularization of %d-mer',N) );
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,4 +49,5 @@ plot( which_N, C_eff,'o' ); hold on
 plot( N_overlap, C_eff_overlap_halfway); hold on
 set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
 legend( 'circularize to origin','overlap of forward/reverse' );
+set(gcf, 'PaperPositionMode','auto','color','white');
 
