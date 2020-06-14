@@ -1,5 +1,5 @@
-function C_eff = compute_C_eff_circular(NITER, which_N, t, R);
-% C_eff = compute_C_eff_circular(NITER, which_N, t, R);
+function C_eff = compute_C_eff_circular(NITER, which_N, TransformLibrary);
+% C_eff = compute_C_eff_circular(NITER, which_N, TransformLibrary);
 %
 % Compute effective molarities for circularization for arbitrary
 %  length N-mer, based on sampling few 1000 trajectories and
@@ -9,8 +9,7 @@ function C_eff = compute_C_eff_circular(NITER, which_N, t, R);
 % Inputs
 %  NITER = number of trajectories to sample for each length
 %  which_N = what lengths of circles to compute C_eff for
-%  t = [3 x Nframes] library of translations from nt to nt. 
-%  R = [3 x 3 x Nframes] library of rotations from nt to nt. 
+%  TransformLibrary = collection of TransformSets -- one must be BB.
 %
 % Outputs
 %  C_eff = effective molarity (units of M) for each value of which_N
@@ -20,11 +19,13 @@ function C_eff = compute_C_eff_circular(NITER, which_N, t, R);
 for i = 1:length(which_N)
     N = which_N(i); % number of steps
     tic
-    pts_f = get_pts_forward( NITER, N+1, t, R);
+    step_types = repmat( {'BB'},N,1);
+    pts_f = get_pts_forward( NITER, step_types, TransformLibrary);
     toc
-    %cla;plot3( pts_f(1,:),pts_f(2,:),pts_f(3,:),'o'); axis equal
+    %cla;plot3( pts_f.t(1,:),pts_f.t(2,:),pts_f.t(3,:),'o'); axis equal
     % then collect histograms
-        
+    pts_f = pts_f.T6; % 6D tensor
+    
     s = get_kde_bandwidth( pts_f );
     pts_r = [0,0,0,0,0,0];
 

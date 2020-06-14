@@ -357,10 +357,8 @@ Is distribution too \'91spiky\'92 to be handled well by multivariate KDE? Lots o
 * Check if re-centering helps?\
 * Another cross-check \'97> create samples based on multi-jointed chain, where I know answer analytically from Fourier transforms.\
 * Note that circularize to origin may also be biased to be high. Probably only way to check would be lots of compute and grid-based calculations, rather than KDE.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
-\cf0 \
+\
+\
 Also tried isometric v->b transformation before KDE. Nope \'97 leads to even *worse* underestimation. So turn off that \'91isometric\'92 flag in 
 \f3\fs20 get_C_eff_from_pts_6D
 \fs24 \
@@ -372,8 +370,7 @@ Also tried isometric v->b transformation before KDE. Nope \'97 leads to even *wo
 \cf0 \
 \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
-\cf0 \
+\
 Actually rerun above with lots of replicates\'96 after some bug fixes caught below \'97 its not too bad! In fact, the error may be in the \'91circularize to origin\'92.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.46.56 PM.png \width13440 \height6720
@@ -382,42 +379,65 @@ Actually rerun above with lots of replicates\'96 after some bug fixes caught bel
 \
 \
 For 10-mer \'97 actually not too bad \'97 biggest error is 1<\'97>9. \
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
-\cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.53.34 PM.png \width13280 \height6740
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
-\cf0 \
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \ul 6 June, 2020\
 just_so3_test.m\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \ulnone How about just  SO(3) part? Can we isolate the issue?\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
-\cf0 \ul \ulc2 \
+\cf0 \ul \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \ulnone \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.13.11 PM.png \width10180 \height8040
-}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.12.53 PM.png \width10580 \height8020
-}¬}\
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
 \
 Some variation, though look at axis limits \'97 not much (10-20%). \
 \
 Still, may be useful. Recompute 20-mer. Caught an error where sin(q/2)/(q/2) gives nan, throws off computation of last points (circularization of 20-mer forward or reverse, back to origin)\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.39 PM.png \width10380 \height7920
-}¬}\
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
 Note how off first point is for red. Can sort of see why \'97 trying to compare a very concentrated distribution (red, R) and diffuse distribution (blue). But discrepancy is 
 \i opposite
 \i0  of problem in SE(3) where KDE overlap underestimates \'91true\'92 [?]. Also in different direction in repeat compared to original data.\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.31 PM.png \width9620 \height7840
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul 14 June, 2020\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone * Rewriting code to be more general \'97 keep track of 6D tensors, don\'92t \'93bake in\'94 C5\'92 -C4\'92-C3\'92 triads\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.07.45 PM.png \width12800 \height6420
 }¬}\
+\
+Also, trying to estimate errors based on std(KDE values) \'97 an underestimate as we should also bootstrap/jack-knife forward its that define KDE:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.17.33 PM.png \width12580 \height6520
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.18.28 PM.png \width12880 \height6280
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
 }

@@ -1,4 +1,4 @@
-function [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
+function [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, TransformLibrary );
 %
 % Compute endpoint transforms for trajectories with step number 1 to Nmax.
 % Note that number of 'nucleotides' at each step number N is N+1. We're
@@ -9,8 +9,7 @@ function [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
 % Inputs
 %  Nmax  = max. length
 %  NITER = number of trajectories to sample for each length
-%  t = [3 x Nframes] library of translations from nt to nt. 
-%  R = [3 x 3 x Nframes] library of rotations from nt to nt. 
+%  TransformLibrary = collection of TransformSets -- one must be BB.
 %
 % Outputs
 %  all_pts_f = cell of Nmax arrays of forward samples, each with 
@@ -21,9 +20,9 @@ function [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
 % (C) R. Das, Stanford 2020
 for i = 1:Nmax
     tic
-    all_pts_f{i} = get_pts_forward( NITER, i+1, t, R);
-    % don't really need to repeat above -- could just reverse transforms
-    all_pts_r{i} = get_pts_reverse( NITER, i+1, t, R); 
+    step_types = repmat( {'BB'},i,1);
+    all_pts_f{i} = get_pts_forward( NITER, step_types, TransformLibrary);
+    all_pts_r{i} = reverse_transform( all_pts_f{i} ); 
     toc
 end
 

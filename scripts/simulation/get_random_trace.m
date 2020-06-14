@@ -5,10 +5,9 @@ function y = get_random_trace(step_types, TransformLibrary, drawit );
 %  starting from (0,0,0) and standard rotation frame.
 %
 % Inputs
-%  step_types = list of steps (Number of nucleotides N is this number plus 1 )
-%  TransformSet = struct with two fields:
-%     t = [3 x Nframes] library of translations from nt to nt. 
-%     R = [3 x 3 x Nframes] library of rotations from nt to nt. 
+%  step_types = list of steps ('BB',etc.) (Number of nucleotides N is length of this list plus 1 )
+%  TransformLibrary = collection of TransformSets with field names corresponding to
+%       step_types.
 %  drawit = draw random trace with coordinate frames [default = 1]
 %
 % Output
