@@ -9,10 +9,6 @@ toc
 TransformLibrary = {};
 TransformLibrary = setfield( TransformLibrary, 'BB', TransformSet );
 
-%% For ribose rings
-%TransformSet = get_transform_library( pdbstruct, {'O4''','C4''','C3'''},{'C4''','C3''','C2'''} );
-%Tranformlibrary = add_transform_library( Tranformlibrary, TransformSet, 'RiboseC4primeToC3prime' ); % backbone
-
 %% for stems
 % base_pairs = get_base_pairs('4ybb_DIII.stems.txt');
 % TransformSet = get_transform_library( pdbstruct,  {'C5''','C4''','C3'''},{'C5''','C4''','C3''','base_pair'}, base_pairs );
@@ -25,8 +21,8 @@ x = get_random_trace(step_types, TransformLibrary );
 %% Let's get some statistics, and estimate return probability 
 % (C_eff for circular RNA)
 which_N = [2:19 20:5:40, 2:19 20:5:40, 2:19, 2:19, 50:10:100]; NITER = 2000;
-%which_N = [2:12]; NITER = 10000;
-C_eff = compute_C_eff_circular(NITER, which_N, TransformLibrary);
+which_N = [2:12]; NITER = 1000;
+C_eff = compute_C_eff_circular_backbone(NITER, which_N, TransformLibrary);
 %%
 clf; plot( which_N, C_eff,'o' );set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
 title('Effective molarity for circularization' );
@@ -36,12 +32,13 @@ title('Effective molarity for circularization' );
 %  potentially quite efficient C_eff calculator.
 %   ... though seeing some problems, likely because of edge effects
 %     at boundaries of SO(3) rotation space (+/-pi in axis-angle).
-Nmax = 100; NITER = 1000;
+Nmax = 10; NITER = 1000;
 [all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, TransformLibrary );
 
 %% Show overlap
 N = 10;
-[C_eff_overlap_f, C_eff_overlap_r,C_eff_overlap_f_err, C_eff_overlap_r_err] = get_C_eff_overlap( N, all_pts_f, all_pts_r ); clf;
+[C_eff_overlap_f, C_eff_overlap_r,C_eff_overlap_f_err, C_eff_overlap_r_err] = ...
+    get_C_eff_overlap( all_pts_f(1:N), all_pts_r(1:N) ); clf;
 %plot( [C_eff_overlap_f; C_eff_overlap_r]' ); hold on   
 errorbar( 1:N,C_eff_overlap_f,C_eff_overlap_f_err ); hold on   
 errorbar( 1:N,C_eff_overlap_r,C_eff_overlap_r_err ); hold on   
@@ -63,4 +60,11 @@ errorbar( N_overlap, C_eff_overlap_halfway, C_eff_overlap_halfway_error); hold o
 set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
 legend( 'circularize to origin','overlap of forward/reverse' );
 set(gcf, 'PaperPositionMode','auto','color','white');
+
+
+%% sample trajectory
+N = 6;
+step_types = repmat( {'BB'},1,N); % number of nucleotides, steps is N-1. 
+sample_circle_trajectory( step_types, TransformLibrary, all_pts_r );
+
 

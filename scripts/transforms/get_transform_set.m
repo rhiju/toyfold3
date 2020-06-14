@@ -35,4 +35,6 @@ for n = find( ok1 & ok2)
     [t(:,count),R(:,:,count)] = get_transform( ctr1(:,n), M1(:,:,n), ctr2(:,n), M2(:,:,n));
 end
 TransformSet = struct( 't',t,'R',R);
+TransformSet = fill_T6_from_t_and_R( TransformSet );
+
 
