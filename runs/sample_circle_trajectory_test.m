@@ -1,6 +1,6 @@
 %load toyfold3_test.mat
 
-N = 12; % steps.
+N = 6; % steps.
 
 x = zeros(3,N); m = zeros(3,3,N);
 x(:,1) = [0,0,0]; % trajectory

@@ -1,33 +1,43 @@
-%pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
-pdbstruct = pdbread( '../data/4ybb_23S.pdb');
 %%
-[ctr,M,chainbreak] = get_frames( pdbstruct );
-%cla; draw_trace( ctr, M );
+pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
+%%
+tic
+TransformSet = get_transform_set( pdbstruct, {'C5''','C4''','C3'''},{'C5''','C4''','C3''',1} );
+toc
 
 %%
-[t,R] = get_transform_library(ctr, M, chainbreak);
+TransformLibrary = {};
+TransformLibrary = setfield( TransformLibrary, 'BB', TransformSet );
+
+%% For ribose rings
+%TransformSet = get_transform_library( pdbstruct, {'O4''','C4''','C3'''},{'C4''','C3''','C2'''} );
+%Tranformlibrary = add_transform_library( Tranformlibrary, TransformSet, 'RiboseC4primeToC3prime' ); % backbone
+
+%% for stems
+% base_pairs = get_base_pairs('4ybb_DIII.stems.txt');
+% TransformSet = get_transform_library( pdbstruct,  {'C5''','C4''','C3'''},{'C5''','C4''','C3''','base_pair'}, base_pairs );
 
 %% Cool let's generate a random trajectory
-N = 100; % number of nucleotides, steps is N-1.
-[x,m] = get_random_trace(N, t, R );
+step_types = repmat( {'BB'},1,100); % number of nucleotides, steps is N-1.
+x = get_random_trace(step_types, TransformLibrary );
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Let's get some statistics, and estimate return probability 
 % (C_eff for circular RNA)
-which_N = [2:19 20:5:40, 2:19 20:5:40, 2:19, 2:19, 50:10:100]; NITER = 5000;
+%which_N = [2:19 20:5:40, 2:19 20:5:40, 2:19, 2:19, 50:10:100]; NITER = 5000;
 %which_N = [2:12, 2:12]; NITER = 100000;
-C_eff = compute_C_eff_circular(NITER, which_N, t, R);
+%C_eff = compute_C_eff_circular(NITER, which_N, t, R);
 %%
-clf; plot( which_N, C_eff,'o' );set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
-title('Effective molarity for circularization' );
+%clf; plot( which_N, C_eff,'o' );set(gca,'fontweight','bold');xlabel('N');ylabel('C_{eff} (M)');
+%title('Effective molarity for circularization' );
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Try overlap between forward and reverse distributions as
 %  potentially quite efficient C_eff calculator.
 %   ... though seeing some problems, likely because of edge effects
 %     at boundaries of SO(3) rotation space (+/-pi in axis-angle).
-Nmax = 10; NITER = 5000;
-[all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, t, R );
+Nmax = 10; NITER = 1000;
+[all_pts_f, all_pts_r] = get_all_pts( Nmax, NITER, TransformLibrary );
 
 %% Show overlap
 N = 10;
