@@ -1,7 +1,7 @@
 function s = get_kde_bandwidth( pts );
 % get_kde_bandwidth( pts );
 % 
-% Using Silverman't rule of thumb, as 
+% Using Silverman's rule of thumb, as 
 %  described in MATLAB's mvskdensity reference page!
 %
 % (C) R. Das, Stanford University 2019

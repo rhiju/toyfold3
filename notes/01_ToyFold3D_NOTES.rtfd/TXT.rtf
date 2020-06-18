@@ -1,0 +1,446 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf840
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 Helvetica;
+\f3\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red53\green53\blue53;\red0\green0\blue0;\red255\green255\blue255;
+\red255\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c27059\c27059\c27059;\csgray\c0;\csgray\c100000;
+\csgenericrgb\c100000\c0\c0;}
+\margl1440\margr1440\vieww17040\viewh16720\viewkind0
+\deftab560
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\fs24 \cf2 \ul \ulc2 25 May, 2020\
+\ulnone \
+
+\b Let\'92s do the bare minimum to simulate an RNA chain\
+
+\b0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+
+\f1\fs26 \cf3 \cb4 \CocoaLigature0 toyfold3_test.m
+\f0\fs24 \cf2 \cb1 \CocoaLigature1 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf2 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\fs18 \cf2 void\
+get_stub_stub( conformation::Residue const & rsd1,\
+    conformation::Residue const & rsd2,\
+    kinematics::Stub & stub1,\
+    kinematics::Stub & stub2,\
+    StubStubType const & stub_stub_type )\
+\{\
+    using namespace core::kinematics;\
+    using Matrix = numeric::xyzMatrix<Real>;\
+    switch ( stub_stub_type ) \{\
+    case O3P_TO_O5P :\
+        // takeoff\
+        stub1 = Stub( rsd1.xyz( " O3'") /* center */,\
+            rsd1.xyz( " O3'") /* a */,\
+            rsd1.xyz( " C3'") /* b  [b->a defines x] */,\
+            rsd1.xyz( " C4'") /* c  [c->b defines y] */ );\
+        stub1.M = Matrix::cols( stub1.M.col_y(), stub1.M.col_z(), stub1.M.col_x() ); // Prefer to have C3'->O3' (takeoff vector) along z\
+\
+        // landing\
+        stub2 = Stub( rsd2.xyz( " O5'") /* center */,\
+            rsd2.xyz( " C5'") /* a */,\
+            rsd2.xyz( " O5'") /* b  [b->a defines x] */,\
+            rsd2.xyz( " C4'") /* c  [c->b defines y] */ );\
+        stub2.M = Matrix::cols( stub2.M.col_y(), stub2.M.col_z(), stub2.M.col_x() ); // Prefer to have O5'->C5' (landing vector) along z\
+        return;\
+\'85\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\fs24 \cf2 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+
+\f2 \cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 8.20.03 AM.png \width9540 \height8300
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+As a quick test case, use 4ybb_DomainIII.\
+\
+Capture coordinate systems set up on O5\'92  \
+Point z-vectors from O5\'92 to C5\'92 (thick black), and x vectors out from O5\'92 to C4\'92 (thin black). Below also show y as gray very thin.  \
+This is the \'93landing\'94 coordinate frame that I used in loop_close.\
+\
+So: transforms that go from one landing frame to the next capture: delta, (chi), epsilon, zeta, alpha, beta, gamma, which should hopefully capture delta-epsilon, delta-chi, and zeta-alpha correlations. \cf5 NOTE ERROR \'97 SHOULD USE C5\'92-C4\'92-C3\'92 traces; fixed below.\cf0 \
+\
+\
+Generate random traces with these O5\'92 \'97> O5\'92 transforms:\
+ {{\NeXTGraphic Screen Shot 2020-05-25 at 8.58.37 AM.png \width6840 \height4620
+}¬}{{\NeXTGraphic Screen Shot 2020-05-25 at 8.58.34 AM.png \width3940 \height5460
+}¬}\
+\
+Fixed an error above in deriving frames (forgot to normalize y vector)\
+Copied/pasted in KDE code from toyfold2 (get_kde_bandwidth & get_C_eff_from_pts) to estimate density at 0,0,0,0,0,0. \
+Works! \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 10.57.51 AM.png \width17420 \height5680
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Jumps up to near 20 mM ar N~8!  \
+Expect > 1 uM for N~few 100, since that\'92s the basis of circularization of strands for sequencing assays \'97> checks out.\
+\
+After documentation \'97 yes, getting similar C_eff:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 11.39.22 AM.png \width10600 \height8660
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+Repeat with reading in full 23S from 4ybb\'85 phew MATLAB pdbread() function is sloooooow. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.04.33 PM.png \width6120 \height5440
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+But computation of C_eff remains fast: \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf5 ERROR: Following is \'91off-by-one\'92 due to an error in number of nucleotides vs. number of steps. Corrected way below\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.03.00 PM.png \width10320 \height8600
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul Switch to C5\'92-C4\'92-C3\'92 triad\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Trajectories look more intuitive\'85\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.13.29 PM.png \width5120 \height6320
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.13.43 PM.png \width5260 \height7180
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+But C_eff is lower by ~2x. Why is that? And noisier? (20k samples)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf5 ERROR: Following is \'91off-by-one\'92 due to an error in number of nucleotides vs. number of steps. Corrected way below\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 12.16.12 PM.png \width10100 \height8680
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Oh it might have to do with not using sin^2(q)/q^2 weighting\'85 [uh but that should be unity at origin].\
+\
+Above is quite noisy. Try 100k samples instead of 20k samples for first few N. Still pretty noisy actually:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 2.11.23 PM.png \width10080 \height5800
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+This may be the price we pay for going to 6 dimensions \'97 lots of scatter.  Is the oscillation of odd vs. even real?\
+If so, seems nonintuitive \'97 even should have higher C_eff, I\'92d have assumed.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf5 YEs, there was an off-by-one error above \'97 should be shifted by 1 and C-eff peaks are indeed at evens, see below.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Try overlap based  KDE computation. Pretty fast, just like in ToyFold 2D calls\'97 able to just run 2000 cycles\
+Getting poor agreement when coming in from different sides, e.g. for 10-nt loop, with jumps who going all the way around\'85\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 1.17.10 PM.png \width10300 \height5800
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+About a 2x jump! Note that left-hand-most points above correspond to precious calculations \
+for full 10-mer finding origin (0,0,0,0,0,0). Above is only for 10-nt loop. Longer loops look a little smoother, though still the systematic offset compared to complete circularization\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 2.25.22 PM.png \width9960 \height5840
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 2.26.06 PM.png \width9700 \height5800
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+If we compare overlap from f/r for different size loops using n/2 and n/2 for steps forward and reverse, seeing \
+a systematic underestimation compared to more costly full calculations above:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 1.16.35 PM.png \width9760 \height5600
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 TODO\
+\'95\'a0fix molar conversion 
+\b DONE
+\b0 \
+\'95 Document all scripts 
+\b DONE
+\b0 \
+\'95 separate out toyfold2 import scripts into separate subdirectory 
+\b DONE
+\b0 \
+\'95\'a0read in full 4ybb 23S as fragment source 
+\b DONE
+\b0 \
+\'95\'a0Switch coordinate frames from O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 to avoid phosphate & gamma defining coordinate frame \'97> note conceptual error above 
+\b DONE
+\b0 \
+\'95\'a0check chain when assigning atoms 
+\b DONE
+\b0 \
+\'95\'a0put in chain break filter (record o3\'92 and p xyz) 
+\b DONE
+\b0 \
+\'95 create reverse trajectories (quickest may be to write reverse_transform function). Use KDE cross check on C_eff. 
+\b DONE
+\b0 \
+\'95\'a0Write circular trajectory sampler, again copy of toy fold work\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+
+\b \cf0 \ul Current paradoxes:
+\b0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone \'95 
+\b Dependence on frame choice.
+\b0  Why did changing coordinate frame form O5\'92-C5\'92-C4\'92 to C5\'92-C4\'92-C3\'92 results in a drop of C_eff by factor of two? Should actually be able to figure this out with extremely small fragment library, or even an artificial \'91model library\'92. Could be some weirdo correlation between gamma and delta, perhaps due to helix/loop sections in fragments?  \ul Solution:\ulnone  generate fragments based on Rosetta-like potential where we explicitly know which torsions are correlations and can verify no correlations between one transform and the next. Critical control!\
+\
+\'95 
+\b KDE issue
+\b0  Why does overlap calculation underestimate true C_eff? May have something to do with hard boundaries of Euler vector space at +/-pi? That was certainly a problem in ToyFold2D with roadblock (which produced hard edges) \'97 https://drive.google.com/open?id=1MIADLBed3w2pHAeyJJKit3p2UTnxx2-Q&authuser=rhiju@stanford.edu&usp=drive_fs .\
+But how could we re-center? Do we need SE(3) KDE, e.g. nuklei? http://nuklei.sourceforge.net/doxygen/.  \ul Solutions: \ulnone Check grid-based calculations (may need more statistics!). Check with isotropic distributions, e.g. random Gaussian chains, which will exacerbate boundary effects by producing smooth distributions to pi and -pi. Will also provide check on (sinq/q)^2 phase space term! \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+
+\i \cf0 \ul Should we still barrel forward with backtracing? yes\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+
+\i0 \cf0 \ulnone \
+ Fixed off-by-one error so that all_pts_f, etc., reflect distributions after N 
+\i steps
+\i0  . Peaks in C_eff are at even numbers now. =)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.06.04 PM.png \width13640 \height4100
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul sample_circle_trajectory_test.m\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Works!\
+10-mers:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.25.23 PM.png \width3340 \height3740
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.25.30 PM.png \width3680 \height4160
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.25.38 PM.png \width4140 \height4920
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+40-mers \'97 note in bottom of central panel an almost perfect A-form-like helix with 11 nts:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.26.05 PM.png \width4300 \height3260
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.26.51 PM.png \width3960 \height3720
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.27.10 PM.png \width3380 \height3580
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+6-mers exacerbate closure at last bond, but show how closure solutions look mostly like 3 A-form like strands, with sharp kinks in between.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.29.00 PM.png \width3440 \height5280
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.28.37 PM.png \width3900 \height4900
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.28.30 PM.png \width4520 \height4520
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+Actually, more extreme with 4\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.30.03 PM.png \width3900 \height4080
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.30.06 PM.png \width4460 \height4400
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.30.11 PM.png \width3720 \height4340
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+And for 2-mr [cyclic dinucleotide] there may be only one solution:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.31.07 PM.png \width5140 \height2660
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.31.04 PM.png \width5460 \height2680
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.30.58 PM.png \width4680 \height2880
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-05-25 at 3.31.01 PM.png \width4540 \height3200
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul Let\'92s work through how to do KDE\'92s for SO(3) \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Check volume element.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+
+\i \cf0 check_rotations_test. 
+\i0 [copied from loop_close/ GitHub repo]\
+\
+Use \ul SpinCalc\ulnone  to generate\
+
+\i \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+
+\i0 \cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.30 PM.png \width7800 \height7240
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.26 PM.png \width7640 \height6720
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.29.34 PM.png \width10180 \height7980
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+OK!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul How does KDE do?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone Depends on number of samples. Interestingly, overestimates/underestimates depending on number of samples, which seems OK.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.50 PM.png \width7080 \height9500
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.44 PM.png \width6980 \height9420
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 1.50.37 PM.png \width6960 \height9620
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+In bottom panels above, also tried b transform to make space uniform:\
+\
+B = [6 * (v-sin v) ] ^1/3\
+volume element  sinc^2(v/2) dv_x dv_y dv_z => db_x db_y db_z\
+\
+Note systematic downturn at high rotation vectors, due to boundary effects at edge of sphere. Interesting that b-transform makes this worse?\
+So just try to do KDE, dividing by (1/8pi^2) x sinc(v/2)^2. This corrects for downturn at high rotation vectors to give \'91true\'92 probability density per phase space volume,  dp/domega.\
+\
+OK updated my KDE overlap code for circularization \'97 better agreement between overlap-based calcs and return-to-origin calcs, which used to be off by ~2x!:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.55 PM.png \width11120 \height5380
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.43 PM.png \width10940 \height5460
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.18.10 PM.png \width10800 \height5420
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.17.24 PM.png \width11380 \height5380
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+Though there\'92s still a systematic underestimation based on overlap. \
+* A possible hint \'97 overlap calcs are really underestimating with, say 1-19 overlaps for 20-mer.\
+Is distribution too \'91spiky\'92 to be handled well by multivariate KDE? Lots of islands spread around SE(3)?\
+* Check if re-centering helps?\
+* Another cross-check \'97> create samples based on multi-jointed chain, where I know answer analytically from Fourier transforms.\
+* Note that circularize to origin may also be biased to be high. Probably only way to check would be lots of compute and grid-based calculations, rather than KDE.\
+\
+\
+Also tried isometric v->b transformation before KDE. Nope \'97 leads to even *worse* underestimation. So turn off that \'91isometric\'92 flag in 
+\f3\fs20 get_C_eff_from_pts_6D
+\fs24 \
+
+\f2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-02 at 2.31.28 PM.png \width10020 \height8040
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+Actually rerun above with lots of replicates\'96 after some bug fixes caught below \'97 its not too bad! In fact, the error may be in the \'91circularize to origin\'92.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.46.56 PM.png \width13440 \height6720
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+For 10-mer \'97 actually not too bad \'97 biggest error is 1<\'97>9. \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.53.34 PM.png \width13280 \height6740
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul 6 June, 2020\
+just_so3_test.m\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone How about just  SO(3) part? Can we isolate the issue?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.13.11 PM.png \width10180 \height8040
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.12.53 PM.png \width10580 \height8020
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+Some variation, though look at axis limits \'97 not much (10-20%). \
+\
+Still, may be useful. Recompute 20-mer. Caught an error where sin(q/2)/(q/2) gives nan, throws off computation of last points (circularization of 20-mer forward or reverse, back to origin)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.39 PM.png \width10380 \height7920
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+Note how off first point is for red. Can sort of see why \'97 trying to compare a very concentrated distribution (red, R) and diffuse distribution (blue). But discrepancy is 
+\i opposite
+\i0  of problem in SE(3) where KDE overlap underestimates \'91true\'92 [?]. Also in different direction in repeat compared to original data.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-06 at 7.28.31 PM.png \width9620 \height7840
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ul 14 June, 2020\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \ulnone * Rewriting code to be more general \'97 keep track of 6D tensors, don\'92t \'93bake in\'94 C5\'92 -C4\'92-C3\'92 triads\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.07.45 PM.png \width12800 \height6420
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+Also, trying to estimate errors based on std(KDE values) \'97 an underestimate as we should also bootstrap/jack-knife forward its that define KDE:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.17.33 PM.png \width12580 \height6520
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-14 at 1.18.28 PM.png \width12880 \height6280
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+}
