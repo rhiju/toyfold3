@@ -1,0 +1,79 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf840
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red160\green32\blue240;}
+{\*\expandedcolortbl;;\csgenericrgb\c62745\c12549\c94118;}
+\margl1440\margr1440\vieww12940\viewh13560\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \ul \ulc0 Does RNA circularization increase/decrease probability of inline attack?\
+\ulnone Try to figure out effect of a single inline  conformation?\
+Calculate C_eff with a single inline conformation, drawn from 
+\f1\fs20 \cf2 2gjw_nuclease_inline_conf.pdb
+\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.10.51 AM.png \width4080 \height2680
+}¬}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Check if placement of inline conformation and where overlap is calculated matters:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 8.58.43 AM.png \width10280 \height8040
+}¬}\
+Actually pretty robust!\
+Sample_circle_trajectories also works \'91out of the box\'92, though I had to update draw_trace to color by step_type \'97> inline conformation shown in red below.\
+{{\NeXTGraphic Screen Shot 2020-06-18 at 9.09.22 AM.png \width5160 \height4620
+}¬}{{\NeXTGraphic Screen Shot 2020-06-18 at 9.09.04 AM.png \width5880 \height4660
+}¬}\
+In above, I used only Domain III of ribosome for BB transforms. Now repeat with full 23S rRNA:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.15.16 AM.png \width10400 \height7960
+}¬}\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.16.19 AM.png \width4460 \height5920
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.16.33 AM.png \width4020 \height6400
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+More variance with N=4:\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.18.02 AM.png \width10280 \height8000
+}¬}{{\NeXTGraphic Screen Shot 2020-06-18 at 9.18.24 AM.png \width5700 \height4840
+}¬}\
+\
+\
+\
+Now let\'92s scan lengths and see if circularization enhances or suppresses sampling of inline  attack conformation:\
+NITER = 1000 samples:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.31.11 AM.png \width10440 \height7880
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Zoom in\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.31.59 AM.png \width10280 \height7920
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+We need more stats (NITER=10000)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-06-18 at 9.38.01 AM.png \width10240 \height7820
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+OK for a few intermediate N (6-10), probability for inline attack is slightly suppressed, but its a <20% effect.\
+Could be much more interesting to see what happens with secondary structure motifs like internal loops, bulges, apical loops.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+}
