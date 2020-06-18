@@ -58,7 +58,7 @@ m(:,:,N+1) = m(:,:,1);
 
 clf
 y = struct( 't',x,'R',m);
-draw_trace(y)
+draw_trace(y,step_types)
 hold on; 
 plot3(0,0,0,'o');
 
