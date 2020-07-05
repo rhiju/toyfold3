@@ -2,16 +2,9 @@
 pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
 %%
 tic
-TransformSet = get_transform_set( pdbstruct, {'C5''','C4''','C3'''},{'C5''','C4''','C3''',1} );
+BB_dinucleotides = get_BB_dinucleotides(pdbstruct);
+TransformLibrary.BB = get_transform_set( pdbstruct, BB_dinucleotides, {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 toc
-
-%%
-TransformLibrary = {};
-TransformLibrary = setfield( TransformLibrary, 'BB', TransformSet );
-
-%% for stems
-% base_pairs = get_base_pairs('4ybb_DIII.stems.txt');
-% TransformSet = get_transform_library( pdbstruct,  {'C5''','C4''','C3'''},{'C5''','C4''','C3''','base_pair'}, base_pairs );
 
 %% Cool let's generate a random trajectory
 step_types = repmat( {'BB'},1,100); % number of nucleotides, steps is N-1.

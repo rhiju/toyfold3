@@ -22,7 +22,7 @@ _Author: Rhiju Das, 2020_
 ## Getting Started
 * Add to your paths: `scripts/` and subdirectories.
 * Check `notes/` for TextEdit viewable notes on current modeling status
-* Check `runs/` for example commands. First load data saved via `load toyfold3_test.mat`. Then check the commands in, say, `toyfold3_test.m`, particularly the code block at the end that runs `sample_circle_trajectory`. 
+* Check `runs/` for example commands. First load data saved via `load 01_circularBB_test.mat`. Then check the commands in, say, `01_circularBB_test.m`, particularly the code block at the end that runs `sample_circle_trajectory`. 
 
 ![Example of a circular RNA trace](notes/01_ToyFold3D_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%203.26.51%20PM.png)
 

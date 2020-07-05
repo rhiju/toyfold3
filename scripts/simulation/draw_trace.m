@@ -23,8 +23,9 @@ for n = 1:size( t, 2 );
         % Draw trace, with colorcoding of types of transforms.
         if n < size( t, 2 )
             h = plot3( t(1,n+[0,1]), t(2,n+[0,1]),t(3,n+[0,1]),'linew',2 ); hold on
-            colorcode = [0,0,1];
+            colorcode = [0 0.4470 0.7410]; % blue/teal, default MATLAB color
             if strcmp(step_types{n},'Inline') colorcode = [1,0,0]; end;
+            if strcmp(step_types{n},'BP') colorcode = [0.7,0.7,0.7]; end;
             set(h,'color',colorcode );
         end
     end

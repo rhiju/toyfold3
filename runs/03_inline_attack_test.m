@@ -1,12 +1,11 @@
 %% Let's get the inline conformation into our library:
-load toyfold3_test.mat TransformLibrary
+%load toyfold3_test.mat TransformLibrary
 pdbstruct = pdbread('4ybb_23S.pdb');
-TransformSet = get_transform_set( pdbstruct, {'C5''','C4''','C3'''},{'C5''','C4''','C3''',1} );
-TransformLibrary.BB = TransformSet;
+TransformLibrary.BB = get_transform_set( pdbstruct, 'BB', {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 
+%%
 pdbstruct = pdbread( '../data/2gjw_nuclease_inline_conf.pdb');
-TransformSet = get_transform_set( pdbstruct, {'C5''','C4''','C3'''},{'C5''','C4''','C3''',1} );
-TransformLibrary.Inline = TransformSet;
+TransformLibrary.Inline = get_transform_set( pdbstruct, 'BB', {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 
 %% Let's sample trajectories (not circles) and check that answer
 %%  is independent of which link has the inline conformation and
