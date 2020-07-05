@@ -2,19 +2,24 @@
 pdbstruct = pdbread( '../data/4ybb_DIII.pdb');
 %%
 tic
-TransformSet = get_transform_set( pdbstruct, {'C5''','C4''','C3'''},{'C5''','C4''','C3''',1} );
+TransformLibary = struct();
+BB_dinucleotides = get_BB_dinucleotides(pdbstruct);
+TransformLibrary.BB = get_transform_set( pdbstruct, BB_dinucleotides, {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
+toc
+%%
+tic
+stems = read_stems_toyfold3( '../data/4ybb_DIII.pdb.stems.txt' );
+base_pairs = get_base_pairs_from_stems_toyfold3( stems );
+TransformLibrary.BP = get_transform_set( pdbstruct, base_pairs,  {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 toc
 
-%%
-TransformLibrary = {};
-TransformLibrary = setfield( TransformLibrary, 'BB', TransformSet );
-
-%% for stems
-% base_pairs = get_base_pairs('4ybb_DIII.stems.txt');
-% TransformSet = get_transform_library( pdbstruct,  {'C5''','C4''','C3'''},{'C5''','C4''','C3''','base_pair'}, base_pairs );
-
 %% Cool let's generate a random trajectory
-step_types = repmat( {'BB'},1,100); % number of nucleotides, steps is N-1.
+%% base pair step, a.k.a. stacked pair  [no closure]
+step_types = {'BB','BP','BB','BP'}; 
+x = get_random_trace(step_types, TransformLibrary );
+
+%% 1x1 internal loop [no closure]
+step_types = {'BB','BB','BP','BB','BB','BP'}; 
 x = get_random_trace(step_types, TransformLibrary );
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%

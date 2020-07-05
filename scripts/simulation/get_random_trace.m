@@ -34,6 +34,6 @@ end
 y = struct( 't',x,'R',m);
 if drawit
     cla
-    draw_trace(y)
+    draw_trace(y,step_types)
 end
 

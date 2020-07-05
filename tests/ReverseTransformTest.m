@@ -1,6 +1,6 @@
 pdbstruct = pdbread( 'example_data/4ybb_DIII_just3nts.pdb');
 start_triad = {'C5''','C4''','C3'''};
-[ctr,M,ok] = get_frames( pdbstruct, start_triad );
+[ctr,M] = get_frames( pdbstruct, start_triad );
 ctr1 = ctr(:,1);
 ctr2 = ctr(:,2);
 M1 = M(:,:,1);
