@@ -4,12 +4,13 @@ Calculations of RNA tertiary structure ensembles and free energies in 3D
 _Author: Rhiju Das, 2020_
 
 ## Goals
-* Allow rapid simulations to test partitition function calcs -- including tertiary structure -- in MATLAB.
-* Actual predictions for `C_eff` and structural ensembles for circular RNA
-* Explore sampling of ribose rings as a 'sub problem' in atomic reconstruction.
-* Actual predictions for nearest neighbor energies and structural ensembles for helices
-* Test factorization of free energy in terms of local motif energy (including K_d); motif modularity costs; tertiary closure.
-* Test simple analytic representations of translation/rotation SE(3) distributions in tertiary closure costs, including Gaussian models and harmonic transforms.
+- [x] Actual predictions for `C_eff` and structural ensembles for circular RNA
+- [x] Explore sampling of ribose rings as a 'sub problem' in atomic reconstruction.
+- [x] Actual predictions for nearest neighbor energies 
+- [ ] Structural ensembles for helices
+- [ ] Test factorization of free energy in terms of local motif energy (including K_d); motif modularity costs; tertiary closure.
+- [ ] Test simple analytic representations of translation/rotation SE(3) distributions in tertiary closure costs, including Gaussian models and harmonic transforms.
+- [ ] Rapid simulations to test partitition function calcs -- including tertiary structure -- in MATLAB ('build a fold').
 
 ![Example trace of random conformation](notes/01_ToyFold3D_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%2012.13.29%20PM.png)
 
