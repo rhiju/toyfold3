@@ -53,6 +53,7 @@ for i = 1:length( pdbstruct.Model.Atom )
     atom2 = fill_in_xyz(atom,resnum,chain,atom_name2, atom2 );
     atom3 = fill_in_xyz(atom,resnum,chain,atom_name3, atom3 );
 end
+assert( length(resnum) == length(chain))
 
 %%
 %Set up coordinate frames

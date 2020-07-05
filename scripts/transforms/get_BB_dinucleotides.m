@@ -17,13 +17,14 @@ resnum = [];
 chain = '';
 segid = {};
 o3prime = []; p = [];
-
+count = 0;
 for i = 1:length( pdbstruct.Model.Atom )
     atom = pdbstruct.Model.Atom(i);
     if strcmp( atom.AtomName, 'P' )
+        count = count+1;
         resnum = [resnum, atom.resSeq];
         chain  = [chain, atom.chainID];
-        segid  = [segid, {strip(atom.segID)}];
+        segid{count}  = strip(atom.segID);
         p       = [p; atom.X, atom.Y, atom.Z];
         o3prime = [o3prime; NaN, NaN, NaN];
     end

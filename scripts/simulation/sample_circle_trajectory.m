@@ -56,7 +56,7 @@ toc
 x(:,N+1) = x(:,1);
 m(:,:,N+1) = m(:,:,1);
 
-clf
+cla
 y = struct( 't',x,'R',m);
 draw_trace(y,step_types)
 hold on; 
