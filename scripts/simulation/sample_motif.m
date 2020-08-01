@@ -1,4 +1,4 @@
-function [C_eff, C_eff_err] = sample_motif( motif, NITER, TransformLibrary );
+function [C_eff, C_eff_err,out] = sample_motif( motif, NITER, TransformLibrary );
 % out = sample_motif( motif, NITER, TransformLibrary );
 %
 % Wrapper around GET_C_EFF_OVERLAP
@@ -11,7 +11,7 @@ function [C_eff, C_eff_err] = sample_motif( motif, NITER, TransformLibrary );
 % Output
 %  C_eff     = best guess for C_eff, based on average of independent estimates .
 %  C_eff_err =  C_eff_err, based on stdev of independent estimates.
-%
+%  out       = struct with sub-estimates: C_eff_f, C_eff_r
 
 NITER = 5000;
 step_types = motif;
@@ -24,6 +24,8 @@ toc
 %%
 out.C_eff_f = C_eff_overlap_f;
 out.C_eff_r = C_eff_overlap_r;
+out.C_eff_f_err = C_eff_overlap_f_err;
+out.C_eff_r_err = C_eff_overlap_r_err;
 
 C_eff_estimates = [C_eff_overlap_f(2:end), C_eff_overlap_r(2:end)];
 C_eff = mean( C_eff_estimates );
