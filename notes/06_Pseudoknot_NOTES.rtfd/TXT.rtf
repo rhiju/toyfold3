@@ -1,0 +1,468 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Bold;
+\f3\fswiss\fcharset0 Helvetica-Oblique;}
+{\colortbl;\red255\green255\blue255;\red2\green128\blue9;\red170\green4\blue249;\red2\green128\blue9;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c784\c50196\c3529;\csgenericrgb\c66667\c1569\c97647;\csgenericrgb\c784\c50196\c3529;
+}
+\margl1440\margr1440\vieww17160\viewh18040\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fs24 \cf0 \
+
+\fs20 \cf2 % Get dG for  a-b-c-d pseudoknot:
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %       _ BP
+\fs24 \cf0 \
+
+\fs20 \cf2 %      /b|--|d 
+\fs24 \cf0 \
+
+\fs20 \cf2 %     |  |   \\ 
+\fs24 \cf0 \
+
+\fs20 \cf2 %   a |--|c   |
+\fs24 \cf0 \
+
+\fs20 \cf2 %      BP|___/
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  a--c and b--d are base pairs
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % * Use 1M 'standard state'; getting dG (loop entropy).
+\fs24 \cf0 \
+
+\fs20 \cf2 % * To get full dG need to take into account K_d's of BP's as follows:
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %     dG = dG (loop entropy) - Sum [ kT log( 1M / K_d(BP i) ) ]
+\fs24 \cf0 \
+
+\fs20 \cf2 %                              BP i
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % * get dG (in k_B T) 
+\fs24 \cf0 \
+
+\fs20 \cf2 % * This script will do calculation in an ad hoc way -- later can
+\fs24 \cf0 \
+
+\fs20 \cf2 %    generalize to allow simpler input of build-up path
+\fs24 \cf0 \
+
+\fs20 \cf2 % * Most important test -- different build-up paths should give
+\fs24 \cf0 \
+
+\fs20 \cf2 %    same answer.
+\fs24 \cf0 \
+
+\fs20 \cf2 % * Let's imagine a--b is 2 nt, b--c is 4 nt, c--d is 3 nt. Then
+\fs24 \cf0 \
+
+\fs20 \cf2 %    there should be coupling  between left hand loop formation (a-b-c) and
+\fs24 \cf0 \
+
+\fs20 \cf2 %      right hand loop formation (b-c-d). 
+\fs24 \cf0 \
+
+\fs20 \cf2 %     And.. test that buildup of left loop, then right; vs. right loop
+\fs24 \cf0 \
+
+\fs20 \cf2 %       then left give same dG  -- should be non-trivial!
+\fs24 \cf0 \
+
+\fs20 \cf2 % * Can also test paths like a-b-d-c loop first, then connect b-c.
+\fs24 \cf0 \
+
+\fs20 \cf2 % * Can also calculate properties of ensemble.
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf2 % First simulate a-c-b-d as an
+\fs24 \cf0 \
+
+\fs20 \cf2 %  acyclic tree spanning the pseudoknot.
+\fs24 \cf0 \
+
+\fs20 \cf2 %         
+\fs24 \cf0 \
+
+\fs20 \cf2 %       b|--|d 
+\fs24 \cf0 \
+
+\fs20 \cf2 %        |
+\fs24 \cf0 \
+
+\fs20 \cf2 %        |
+\fs24 \cf0 \
+
+\fs20 \cf2 %        |
+\fs24 \cf0 \
+
+\fs20 \cf2 %   a |--|c   
+\fs24 \cf0 \
+
+\fs20 \cf2 %         
+\fs24 \cf0 \
+
+\fs20 \cf2 %  ([...)]
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  c-b=4 is 4 nts -- note backwards steps though!
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % Let's imagine a--b is 1 nt, b--c is 4 nt, c--d is 1 nt:
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  ([...)] --> pseudoknot
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % Now determine C_eff for closing each chain
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+{{\NeXTGraphic Screen Shot 2020-10-19 at 12.38.36 PM.png \width9100 \height9020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+C_eff (ab): 0.010\
+C_eff (cd): 0.021\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.999\
+\
+No coupling!? Could this be due to low statistics though? Repeat with 50,000 traces for acyclic tree:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 12.46.49 PM.png \width7020 \height4940 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 C_eff (ab): 0.011\
+C_eff (cd): 0.022\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.993\
+\
+Note that individual C_eff (ab) and C_eff(cd) should be equal to each other  \'97\
+  these don\'92t all match up, but there\'92s some error in estimating these values from KDE\'92s.\
+\
+
+\f2\b But the coupling value (K) is really dang close to 1!?
+\f1\b0 \
+\
+The ab and cd values (without the coupling) should be equal to C_eff for tetra loop hairpin -- let\'92s check that.\
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf0 [C_eff_tetraloop,C_eff_tetraloop_err] = sample_motif( \{\cf3 'BP'\cf0 ,\cf3 'BB'\cf0 ,\cf3 'BB'\cf0 ,\cf3 'BB'\cf0 ,\cf3 'BB'\cf0 ,\cf3 'BB'\cf0 \}, 2000, TransformLibrary );
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+{{\NeXTGraphic Screen Shot 2020-10-19 at 12.31.55 PM.png \width8960 \height7620 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf0 [C_eff_tetraloop_rev,C_eff_tetraloop_rev_err] = sample_motif( \{\cf3 'BP'\cf0 ,\cf3 'BBr'\cf0 ,\cf3 'BBr'\cf0 ,\cf3 'BBr'\cf0 ,\cf3 'BBr'\cf0 ,\cf3 'BBr'\cf0 \}, 5000, TransformLibrary );
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 12.32.42 PM.png \width8920 \height7900 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+Hmmm agreement to within factor of two. Why so much slop though? Probably should revisit all of the above with 6D grids rather than KDE.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf4 %  (.....)  --> pentaloop\
+%   [.....] --> pentaloop\
+%  ([....)] --> pseudoknot\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+Check 
+\f2\b pentaloop
+\f1\b0  \'97 things seem to stabilize\'85\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 12.54.28 PM.png \width7200 \height4540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 12.54.50 PM.png \width6920 \height4300 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf4 %  ([....)] --> pseudoknot\
+%\
+%       b|--|d 
+\fs24 \cf0 \
+
+\fs20 \cf4 %      / S  /\
+%     /  S /    
+\fs24 \cf0 \
+
+\fs20 \cf4 %   a |--|c   
+\fs24 \cf0 \
+
+\fs20 \cf4 %         
+\fs24 \cf0 \
+
+\fs20 \cf4 % Expect formation of LHS loop from a-b chain connection to \
+%    \'91crinkle\'92 up b-c connector, increase\
+%    C_eff for RHS loop (c-d)
+\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1 \cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 1.01.19 PM.png \width6960 \height4820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+And for 
+\f2\b pseudoknot
+\f1\b0 :\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 C_eff (ab): 0.016  \'97> agrees with pentaloop\
+C_eff (cd): 0.017 \'97> agrees with pentaloop\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.996\
+\
+Whoa, still 
+\f3\i no
+\f1\i0  
+\f3\i coupling
+\f1\i0 !\
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf2 % Hmm, maybe its the single-nt a-b and c-d spacing throwing off KDE. 
+\fs24 \cf0 \
+
+\fs20 \cf2 % Try longer spacings
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  (..[..)..] --> pseudoknot
+\fs24 \cf0 \
+
+\fs20 \cf2 %  a  b  c  d
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\f1\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 1.10.30 PM.png \width6940 \height4920 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 C_eff (ab): 0.010\
+C_eff (cd): 0.026\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 1.159\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Wait, why are  ab and cd off?\
+\
+Also, if I repeat I get wildly variable K\'97 e.g., here\'92s a repeat:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 1.12.56 PM.png \width7040 \height4840 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 C_eff (ab): 0.019\
+C_eff (cd): 0.029\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.553\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Another repeat:\
+C_eff (ab): 0.020\
+C_eff (cd): 0.021\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.808\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Maybe we 
+\f3\i need
+\f1\i0  importance sampling or we just don\'92t sample \'91crinkled\'92 b-c conformation.\
+\
+Try 
+\f2\b 10x sampling
+\f1\b0  (500k traces of acyclic a-c-b-d subgraph)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-10-19 at 1.19.23 PM.png \width6880 \height4900 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+C_eff (ab): 0.018\
+C_eff (cd): 0.025\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.524\
+\
+Repeat 500k \'97 do we get similar anticoupling? Yes, but some error.\
+C_eff (ab): 0.016\
+C_eff (cd): 0.022\
+K=C_eff(ab,cd)/C_eff(ab)C_eff(cd): 0.724\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fs24 \cf0 \
+
+\fs20 \cf2 %% Try importance sampling
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % Again model
+\fs24 \cf0 \
+
+\fs20 \cf2 %  (..[..)..] --> pseudoknot
+\fs24 \cf0 \
+
+\fs20 \cf2 %  a  b  c  d
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % But try instead to compare:
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %     [.....] --> pentaloop
+\fs24 \cf0 \
+
+\fs20 \cf2 %     b     d
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  to b--c segment sampled from pre-circularized abc:
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  (..x..)
+\fs24 \cf0 \
+
+\fs20 \cf2 %  a  b  c
+\fs24 \cf0 \
+
+\fs20 \cf2 %     |__|
+\fs24 \cf0 \
+
+\fs20 \cf2 %       |
+\fs24 \cf0 \
+
+\fs20 \cf2 %       v
+\fs24 \cf0 \
+
+\fs20 \cf2 %      __
+\fs24 \cf0 \
+
+\fs20 \cf2 %     |  |
+\fs24 \cf0 \
+
+\fs20 \cf2 %     [.....] --> pentaloop
+\fs24 \cf0 \
+
+\fs20 \cf2 %     b  c  d
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+C_eff_bcd              0.011418+/-0.001470\
+C_eff_bcd [circle abc] 0.006450+/-0.001085\
+Ratio [circle/lin]     0.564944+/-0.025335\
+\
+Repeat:\
+C_eff_bcd              0.022505+/-0.002852\
+C_eff_bcd [circle abc] 0.008613+/-0.001351\
+Ratio [circle/lin]     0.382727+/-0.015557\
+\
+C_eff_bcd              0.010375+/-0.001428\
+C_eff_bcd [circle abc] 0.008199+/-0.000895\
+Ratio [circle/lin]     0.790308+/-0.024375\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Note errors are underestimated by a lot. Darn.  Repeat with 
+\f2\b 1000
+\f1\b0  circle traces (previously used only 100-200 due to cost):\
+\
+C_eff_bcd              0.012186+/-0.002302\
+C_eff_bcd [circle abc] 0.009137+/-0.002243\
+Ratio [circle/lin]     0.749810+/-0.071932\
+\
+C_eff_bcd              0.012630+/-0.000765\
+C_eff_bcd [circle abc] 0.010318+/-0.000633\
+Ratio [circle/lin]     0.816964+/-0.006070\
+\
+\
+Weirdly, if I lower number of iterations, I get lower numbers!? Back to 200 circle samples:\
+C_eff_bcd              0.018902+/-0.001209\
+C_eff_bcd [circle abc] 0.009903+/-0.000493\
+Ratio [circle/lin]     0.523929+/-0.003439\
+\
+repeat:\
+C_eff_bcd              0.016462+/-0.002011\
+C_eff_bcd [circle abc] 0.011925+/-0.001541\
+Ratio [circle/lin]     0.724392+/-0.022913}

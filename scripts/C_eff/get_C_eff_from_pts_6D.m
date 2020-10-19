@@ -1,4 +1,4 @@
-function [C_eff,C_eff_error] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
+function [C_eff,C_eff_error,C_eff_samples] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
 % [C_eff,C_eff_error] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
 %
 % INPUTS
@@ -16,6 +16,8 @@ function [C_eff,C_eff_error] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
 %  C_eff_err = error estimate in C_eff. NOTE: only includes error from
 %                   sampling points in pts_r -- probably should  bootstrap 
 %                   over pts_f too?
+%  C_eff_samples = samples used to estimate C_eff [same number of values as pts_r]
+%                    NOTE: C_eff = mean( C_eff_samples). 
 %
 % (C) R. Das, Stanford University, 2020
 if ~exist( 'just_SO3','var') just_SO3 = 0; end;
@@ -37,23 +39,23 @@ s = get_kde_bandwidth( pts_f );
 p = mvksdensity( pts_f, pts_r,'Bandwidth',s);
 
 if isometric
-    C_eff = mean(p)/(1/(8*pi^2)*6.022e23/1e27 );
-    C_eff_error = std(p)/(1/(8*pi^2)*6.022e23/1e27 )/sqrt(length(p));
+    C_eff_samples = p/(1/(8*pi^2)*6.022e23/1e27 );
 else
     % correct for phase space volume
     v = sqrt( sum(pts_r(:,end-2:end).^2, 2) ); % rotation angle
     w = (sin(v/2)./(v/2)).^2;
     w( find( v == 0 ) ) = 1;
-    C_eff = mean(p./(w/(8*pi^2)))/ (6.022e23/1e27);
-    C_eff_error = std(p./w)/(1/(8*pi^2)*6.022e23/1e27 )/sqrt(length(p));
+    C_eff_samples = p./(w/(8*pi^2))/ (6.022e23/1e27);
 end
 
 if just_SO3
     % don't need to conversion to molarity.
-    C_eff = C_eff * (6.022e23/1e27);
-    C_eff_error = C_eff_error * (6.022e23/1e27);
+    C_eff_samples = C_eff_samples * (6.022e23/1e27);
 end
     
+C_eff = mean(C_eff_samples);
+C_eff_error = std(C_eff_samples)/sqrt(length(p));
+
 
 function b = convert_v_to_b(v);
 % isometric rescaling so uniform distribution in

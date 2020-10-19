@@ -1,4 +1,4 @@
-function pts = get_pts_forward( NITER, N, t, R);
+function pts = get_pts_reverse( NITER, N, t, R);
 %
 % NOTE -- this is redundant with get_pts_reverse --
 %  just need to write a function to reverse transforms that takes

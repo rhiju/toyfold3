@@ -27,8 +27,8 @@ while ~feof( fid )
     % A:1-4 B:5-8 HelixX
     cols = strsplit( line, ' ' );
     if length( cols ) >= 2
-        [helix.resnum1,helix.chain1,helix.segid1] = get_resnum_from_tag( cols{1} );
-        [helix.resnum2,helix.chain2,helix.segid2] = get_resnum_from_tag( cols{2} );
+        [helix.resnum1,helix.chain1,helix.segid1] = get_resnum_from_tag_toyfold3( cols{1} );
+        [helix.resnum2,helix.chain2,helix.segid2] = get_resnum_from_tag_toyfold3( cols{2} );
         if length( cols ) > 2 
             helix.name = cols{3};
         else
@@ -36,6 +36,6 @@ while ~feof( fid )
             warning( 'WARNING! WARNING! No stem name found for %s/%s in file %. You might want to add a third field with names like P1, P1b, P2, etc.',cols{1},cols{2},helix_file);
         end
         helices = [helices,helix];
-        helix.helix_tag = sanitize_tag(sprintf('Helix_%s%s%d',helix.chain1(1),helix.segid1{1},helix.resnum1(1)));
+        helix.helix_tag = sanitize_tag_toyfold3(sprintf('Helix_%s%s%d',helix.chain1(1),helix.segid1{1},helix.resnum1(1)));
     end;
 end
