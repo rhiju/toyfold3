@@ -5,14 +5,16 @@ function [C_eff,C_eff_err] = get_C_eff_overlap( step_types, TransformLibrary, NI
 %  distributions going N/2 steps in forward and in reverse directions 
 %
 % Inputs
-%  N_overlap = lengths of circular RNA at which to evaluate overlap
-%  all_pts_f = cell of Nmax arrays of forward samples, each with 
-%       [6 x NITER] points in 6D SE(3) space: x, y, z, v_x, v_y, v_z  
-%  all_pts_r = cell of Nmax arrays of reverse samples, each with 
-%       [6 x NITER] points in 6D SE(3) space: x, y, z, v_x, v_y, v_z  
-% N_overlap_offset = index offset to apply when determining f/r to overlap
-%                          (default 0)
+%  step_types = {'BP','BB','BB','BB','BB','BB'} is tetraloop.
+%  TransformLibrary = collection of TransformSets -- one must be BB.
+%  NITER = number of trajectories to sample for each length
 %
+% Outputs 
+%  C_eff = effective molarity (units of M) for overlap
+%  C_eff_err = error in effective molarity (units of M) for overlap
+%
+% (C) R. Das, Stanford, 2020
+
 if ~exist('NITER','var') NITER = 1000; end;
 
 i = floor(length(step_types)/2);
