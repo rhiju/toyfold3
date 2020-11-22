@@ -43,7 +43,7 @@ title(sprintf('Forward/reverse overlap molarity for circularization of %d-mer',N
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% try pure overlap based calc as function of Nsteps
 N_overlap = [2:100];
-[C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap_halfway( N_overlap, all_pts_f, all_pts_r );
+[C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap_halfway_wrapper( N_overlap, all_pts_f, all_pts_r );
 
 %%
 clf

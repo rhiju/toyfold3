@@ -28,7 +28,7 @@ step_types = [motif,repmat({'BB'},1,max(loop_lengths))];
 
 [all_pts_f, all_pts_r] = get_all_pts( step_types, NITER, TransformLibrary );
 
-[C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap_halfway( loop_lengths, all_pts_f, all_pts_r, N_overlap_offset );
+[C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap_halfway_wrapper( loop_lengths, all_pts_f, all_pts_r, N_overlap_offset );
 
 out.C_eff = C_eff_overlap_halfway;
 out.C_eff_err = C_eff_overlap_halfway_error;

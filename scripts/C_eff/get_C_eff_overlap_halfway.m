@@ -1,12 +1,8 @@
-function [C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap_halfway( N_overlap, all_pts_f, all_pts_r, N_overlap_offset );
+function [C_eff,C_eff_err] = get_C_eff_overlap( step_types, TransformLibrary, NITER );
+% [C_eff,C_eff_err] = get_C_eff_overlap_halfway( step_types, TransformLibrary, NITER );
 %
 % Compute efficiently  C_eff based on overlap of
 %  distributions going N/2 steps in forward and in reverse directions 
-%
-% Be very careful in how you set up -- SCAN_LOOP_LENGTH provides a 
-%  useful wrapper.
-%
-% Wrapper around get_C_eff_from_pts_6D.
 %
 % Inputs
 %  N_overlap = lengths of circular RNA at which to evaluate overlap
@@ -17,14 +13,15 @@ function [C_eff_overlap_halfway,C_eff_overlap_halfway_error] = get_C_eff_overlap
 % N_overlap_offset = index offset to apply when determining f/r to overlap
 %                          (default 0)
 %
-% (C) Rhiju Das, Stanford 2020
-if ~exist( 'N_overlap_offset' ) N_overlap_offset = 0; end;
-C_eff_overlap_halfway = [];
-C_eff_overlap_halfway_error = [];
-for k = 1:length(N_overlap)
-    tic
-    N = N_overlap(k)          + N_overlap_offset;
-    i = floor(N_overlap(k)/2) + N_overlap_offset;
-    [C_eff_overlap_halfway(k),C_eff_overlap_halfway_error(k)] = get_C_eff_from_pts_6D(all_pts_f{i},all_pts_r{N-i});
-    toc
-end
+if ~exist('NITER','var') NITER = 1000; end;
+
+i = floor(length(step_types)/2);
+
+step_types_f = step_types(1:i);
+all_pts_f = get_pts_forward( NITER, step_types_f, TransformLibrary);
+
+step_types_r = step_types((i+1):end); % wait a minute...
+pts = get_pts_forward( NITER, step_types_r, TransformLibrary);
+all_pts_r = reverse_transform( pts );
+
+[C_eff, C_eff_err] = get_C_eff_from_pts_6D(all_pts_f,all_pts_r);

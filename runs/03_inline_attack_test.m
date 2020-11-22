@@ -42,12 +42,12 @@ sample_circle_trajectory( step_type_sets{j}, TransformLibrary, all_pts_r{j} );
 N_overlap = [2:20];NITER=1000;
 step_types = repmat({'BB'},1,max(N_overlap));
 [all_pts_f_BB, all_pts_r_BB] = get_all_pts( step_types, NITER, TransformLibrary );
-[C_eff_overlap_halfway_BB,C_eff_overlap_halfway_error_BB] = get_C_eff_overlap_halfway( N_overlap, all_pts_f_BB, all_pts_r_BB );
+[C_eff_overlap_halfway_BB,C_eff_overlap_halfway_error_BB] = get_C_eff_overlap_halfway_wrapper( N_overlap, all_pts_f_BB, all_pts_r_BB );
 
 %% Check effect of inline -- should disappear for longer lengths.
 step_types_Inline = repmat({'BB'},1,max(N_overlap)); step_types_Inline{1} = 'Inline';
 [all_pts_f_Inline, all_pts_r_Inline] = get_all_pts( step_types, NITER, TransformLibrary );
-[C_eff_overlap_halfway_Inline,C_eff_overlap_halfway_error_Inline] = get_C_eff_overlap_halfway( N_overlap, all_pts_f_Inline, all_pts_r_Inline );
+[C_eff_overlap_halfway_Inline,C_eff_overlap_halfway_error_Inline] = get_C_eff_overlap_halfway_wrapper( N_overlap, all_pts_f_Inline, all_pts_r_Inline );
 
 %%
 clf
