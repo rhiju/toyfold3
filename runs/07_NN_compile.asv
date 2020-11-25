@@ -93,7 +93,7 @@ make_lines( find( save_motif_lengths(1:end-1)~= save_motif_lengths(2:end)),'k',2
 make_lines;
 
 %% Output to .csv file
-filename = 'NN_C_eff_toyfold3_ALL.csv';
+filename = 'NN_C_eff_toyfold3.csv';
 fid = fopen( filename, 'w');
 fprintf( fid, '%s,%s,%s\n','motif','C_eff','C_eff_err');
 for i = 1:length(save_C_eff)
@@ -104,24 +104,13 @@ fprintf( 'Created: %s\n', filename );
 
 %%
 unique_motif_tags = unique(motif_tags,'stable');
-save_C_eff_relerr = save_C_eff_err./save_C_eff;
 for i = 1:length( unique_motif_tags )
-    idx = find(strcmp( motif_tags(save_motif_number), unique_motif_tags{i} ) );
+    idx = find(trcmp( motif_tags{save_motif_number}, unique_motif_tags(i) );
     log_C_eff_mean = sum( log(save_C_eff(idx))./save_C_eff_relerr(idx).^2) ./ sum(1./save_C_eff_relerr(idx).^2);
-    C_eff_mean_relerr = sqrt( 1/ sum(1./save_C_eff_relerr(idx).^2) );
-    C_eff_mean(i) = exp( log_C_eff_mean );
-    C_eff_mean_err(i) = C_eff_mean(i) * C_eff_mean_relerr;
+    C_eff_mean_relerr = sqrt( 1./ sum(1./save_C_eff_relerr(idx).^2) );
+    C_eff_mean = exp( log_C_eff_mean );
+    C_eff_mean_err(i) = C_eff_mean * C_eff_mean_relerr;
 end
-
-filename = 'NN_C_eff_toyfold3.csv';
-fid = fopen( filename, 'w');
-fprintf( fid, '%s,%s,%s\n','motif','C_eff','C_eff_err');
-for i = 1:length(unique_motif_tags)
-    fprintf(fid,'%s,%f,%f\n',unique_motif_tags{i},C_eff_mean(i),C_eff_mean_err(i));
-end
-fclose(fid);
-fprintf( 'Created: %s\n', filename );
-
 
 
 

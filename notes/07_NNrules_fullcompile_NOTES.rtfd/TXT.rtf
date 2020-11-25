@@ -1,0 +1,87 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;\f2\fswiss\fcharset0 Helvetica-Oblique;
+\f3\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red170\green4\blue249;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\csgenericrgb\c66667\c1569\c97647;\csgray\c100000;}
+\margl1440\margr1440\vieww25860\viewh18820\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \ul \ulc0 21 Nov, 2020\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ulnone Continuation of studies in 04_NNrules_NOTES \
+\
+Check our interfaces into C_eff computation for tetraloop\
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf0 [C_eff_tetraloop,C_eff_tetraloop] = sample_motif( \{\cf2 'BP'\cf0 ,\cf2 'BB'\cf0 ,\cf2 'BB'\cf0 ,\cf2 'BB'\cf0 ,\cf2 'BB'\cf0 ,\cf2 'BB'\cf0 \}, 1000, TransformLibrary );
+\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-11-21 at 2.35.21 PM.png \width10360 \height7840 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf0 out_HP = scan_loop_length(loop_lengths,NITER,TransformLibrary,\{\cf2 'BP'\cf0 ,\cf2 'BB'\cf0 \});
+\fs24 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-11-21 at 2.35.57 PM.png \width9900 \height7660 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+OK! Now do calcs for lots of motifs.In each case \'91circularly permute\'92 the step_types, and recompute C_eff \'97> variance tells us systematic uncertainties.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2020-11-21 at 4.34.42 PM.png \width15520 \height8480 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+
+\f1\b \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Conclusions:\
+
+\f0\b0 \'95 Even #stems is better than odd\
+\'95 Symmetry is best \'97 compare 2-2 vs. 1-3, 3-1.  Similarly 1-1-1-1 and 0-0-0-0 in 4WJ\
+\'95 Systematic uncertainties appear to be about 3x or less, with a few exceptions (triloop; 0-0 base pair step)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \ul 23 Nov., 2020\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \ulnone Above numbers appear in the ballpark of what I was getting in 2016 based on Rosetta FARFAR, \
+though new Toyfold numbers are about 10-100x less than Rosetta (I noted that I may have had a bug previously that made previous number 400x too large).\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f2\i \cf0 \
+Following figure from NN_Rule_ChainClosure_NOTES.rtfd:
+\f3\i0 \cb3 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 {{\NeXTGraphic Screen Shot 2016-11-11 at 3.13.14 PM.png \width14220 \height11020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+
+\f1\b \
+\
+
+\f0\b0 \ul 23 Nov., 2020
+\f1\b \
+\ulnone TODO\
+\'95 
+\f0\b0 Can we get a systematic error estimate by comparing forward and reverse? Then add in quadrature to statistical error estimates \'97  
+\f1\b yes works.
+\f0\b0 \
+\'95 Longer hairpins (up to 20-mers). Five-way and six-way junctions. Created new get_unique_motifs wrapper to get 5WJ and 6WJ\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \cb1 {{\NeXTGraphic Screen Shot 2020-11-23 at 5.10.58 PM.png \width24300 \height11320 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \cb1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+}

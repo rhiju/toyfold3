@@ -26,4 +26,19 @@ step_types_r = step_types((i+1):end); % wait a minute...
 pts = get_pts_forward( NITER, step_types_r, TransformLibrary);
 all_pts_r = reverse_transform( pts );
 
-[C_eff, C_eff_err] = get_C_eff_from_pts_6D(all_pts_f,all_pts_r);
+%[C_eff, C_eff_err] = get_C_eff_from_pts_6D(all_pts_f,all_pts_r);
+
+[C_eff_f, C_eff_err_f] = get_C_eff_from_pts_6D(all_pts_f,all_pts_r);
+[C_eff_r, C_eff_err_r] = get_C_eff_from_pts_6D(all_pts_r,all_pts_f);
+C_eff = sqrt(C_eff_f * C_eff_r);
+
+% statistical error
+C_eff_relerr_f = C_eff_err_f/C_eff_f;
+C_eff_relerr_r = C_eff_err_r/C_eff_r;
+% systematic error
+C_eff_diff = 0.5 * abs(log(C_eff_f/C_eff_r));
+
+C_eff_relerr = sqrt(C_eff_relerr_f^2 + C_eff_relerr_r^2 + C_eff_diff^2);
+C_eff_err = C_eff_relerr * C_eff;
+
+
