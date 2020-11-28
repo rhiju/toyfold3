@@ -28,6 +28,7 @@ for n = 2:N
     R = transforms.R;
     ntransforms = size(t,2);
     j = randi(ntransforms);
+    [x(:,n), m(:,:,n)] = apply_transform( x(:,n-1), m(:,:,n-1), t(:,j), R(:,:,j) );
     x(:,n)  = x(:,n-1) + m(:,:,n-1)*t(:,j);
     m(:,:,n)= m(:,:,n-1)*R(:,:,j);
 end
@@ -36,4 +37,7 @@ if drawit
     cla
     draw_trace(y,step_types)
 end
+
+
+
 

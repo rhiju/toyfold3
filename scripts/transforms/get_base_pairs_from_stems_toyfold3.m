@@ -2,6 +2,8 @@ function base_pairs = get_base_pairs_from_stems( stems )
 % base_pairs = get_base_pairs_from_stems( stems )
 %
 %  Infer base pairs (only Watson-Crick pairs) from stems
+%   Probably should exclude G*U pairs!
+% 
 %
 % See also: SETUP_BASE_PAIRS
 % 

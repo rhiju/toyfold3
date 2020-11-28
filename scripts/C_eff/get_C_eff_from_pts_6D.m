@@ -1,4 +1,4 @@
-function [C_eff,C_eff_error,C_eff_samples] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
+function [C_eff,C_eff_error,C_eff_samples] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3, both_dirs);
 % [C_eff,C_eff_error] = get_C_eff_from_pts_6D( pts_f, pts_r, just_SO3);
 %
 % INPUTS
@@ -6,23 +6,57 @@ function [C_eff,C_eff_error,C_eff_samples] = get_C_eff_from_pts_6D( pts_f, pts_r
 %              6D tensor, OR struct holding tensor in T6 field.)
 %  pts_r = sampled (x,y,z,v_x,v_y,v_z) for reverse chain segment (could be
 %              6D tensor, OR struct holding tensor in T6 field.)
-%  just_SO3 = only look at rotation part of translation+rotation;
+%  just_SO3 = only look at rotation part of translation+rotation (default
+%  0)
+%  both_dirs = do KDE with forward/reverse *and* reverse/forward to
+%                get better estimate of C_eff and its error. (default 0,
+%                but highly recommended)
 %
 % OUTPUT
 %  C_eff = Effective molarity for chain closure between forward samples
 %            and reverse samples, calculated based on overlap of
 %            distributions (over translations & rotations), and using
 %            MATLAB's KDE estimator.
-%  C_eff_err = error estimate in C_eff. NOTE: only includes error from
-%                   sampling points in pts_r -- probably should  bootstrap 
-%                   over pts_f too?
+%  C_eff_err = error estimate in C_eff. 
+%                NOTE: by default, only includes statistical error from
+%                   sampling points in pts_r. 
+%                NOTE: If both_dirs=1, stat. error from sampling pts_f is  
+%                   also included, as well as systematic error estimated
+%                   from deviation between forward/reverse and reverse/
+%                   forward calculations.
 %  C_eff_samples = samples used to estimate C_eff [same number of values as pts_r]
 %                    NOTE: C_eff = mean( C_eff_samples). 
+%                    NOTE: returns empty if both_dirs = 1.
 %
 % (C) R. Das, Stanford University, 2020
 if ~exist( 'just_SO3','var') just_SO3 = 0; end;
-if isstruct( pts_f ) pts_f = pts_f.T6; end;
-if isstruct( pts_r ) pts_r = pts_r.T6; end;
+if ~exist( 'both_dirs','var') both_dirs = 0; end;
+
+if both_dirs
+    [C_eff_f, C_eff_err_f] = get_C_eff_from_pts_6D(pts_f,pts_r);
+    [C_eff_r, C_eff_err_r] = get_C_eff_from_pts_6D(pts_r,pts_f);
+    C_eff = sqrt(C_eff_f * C_eff_r);
+    
+    % statistical error
+    C_eff_relerr_f = C_eff_err_f/C_eff_f;
+    C_eff_relerr_r = C_eff_err_r/C_eff_r;
+    % systematic error
+    C_eff_diff = 0.5 * abs(log(C_eff_f/C_eff_r));
+    
+    C_eff_relerr = sqrt(C_eff_relerr_f^2 + C_eff_relerr_r^2 + C_eff_diff^2);
+    C_eff_error = C_eff_relerr * C_eff;
+    C_eff_samples = [];
+    return
+end
+
+if isstruct( pts_f ) 
+    if ~isfield(pts_f,'T6'); pts_f = fill_T6_from_t_and_R(pts_f); end;
+    pts_f = pts_f.T6; 
+end;
+if isstruct( pts_r ) 
+    if ~isfield(pts_r,'T6'); pts_r = fill_T6_from_t_and_R(pts_r); end;
+    pts_r = pts_r.T6; 
+end;
 C_eff_error = NaN;
     
 isometric = 0; % leads to systematic underestimation
