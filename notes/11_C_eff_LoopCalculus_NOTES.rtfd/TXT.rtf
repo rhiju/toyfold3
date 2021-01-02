@@ -1,7 +1,8 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red2\green128\blue9;}
+{\*\expandedcolortbl;;\csgenericrgb\c784\c50196\c3529;}
 \margl1440\margr1440\vieww14140\viewh16920\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
@@ -18,13 +19,11 @@ Long loop, no oligos \'97  trying to estimate C_eff for forming base pair x-x:\
 x~   ~\
 |    ~\
 x~~~~\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0 \
+\
 \
 If one oligo or the other binds it \'91stretches\'92 out linker, making it less likely to come back and base pair\
 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf0   A\
+  A\
  xxxx\
  ||||\
 ~xxxx~\
@@ -52,7 +51,8 @@ If two oligos bind, forming helices A & B, length matching favors return?\
 \ul Code it up: \
  toyfold3/runs/11_C_eff_LoopCalculus.m
 \f1 \
-\ulnone \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \ulnone \
 %% C_eff matrix for\
 %     A         B\
 %   xxxxx     xxxx\
@@ -63,18 +63,223 @@ If two oligos bind, forming helices A & B, length matching favors return?\
 %\
 % So total nucleotide ength = p+A+q+B+r\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0 \
+\f0 \cf0 \
 If this is really going to be an XOR, want no oligo and AB-bound (blue,purple) to be higher than  single oligos (A, B) (red/bold) \'97 \
 yea it works if  loop is really long. E.g., at A=B=40, the helices are 40 bp long:\
-{{\NeXTGraphic Screen Shot 2021-01-01 at 12.33.29 PM.png \width8000 \height7020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 12.33.29 PM.png \width8000 \height7020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 But note pretty poor dynamic range. Less than factor of 2 from A to AB.\
 \
 Above is with \'91loose\'92 linkers (2nt,4nt,2nt). How about tight linkers (1nt,1nt,1nt):\
-{{\NeXTGraphic Screen Shot 2021-01-01 at 1.02.21 PM.png \width8100 \height6980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 1.02.21 PM.png \width8100 \height6980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 Definitely can see effect of short linkers at short helix lengths particularly on AB \'97 some tight geometries needed to \'91close the loop\'92 and form the base pair.  For long loops/helices looks like only a factor of 2.\
 \
+\
+\ul How about AND?\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs20 \cf2 \ulnone % try an AND gate (based on length matching)
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %     A         B      C
+\fs24 \cf0 \
+
+\fs20 \cf2 %   xxxx     xxxx  xxxxxxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % p ||||  q  ||||r |||||||| s
+\fs24 \cf0 \
+
+\fs20 \cf2 % xxxxxxxxxxxxxxxxxxxxxxxxxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % |_______________________|
+\fs24 \cf0 \
+
+\fs20 \cf2 %    C_eff
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %  IF C = 20 bp, hope that A = B = 10 bp might
+\fs24 \cf0 \
+
+\fs20 \cf2 %  lead to AND behavior?
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0 \cf0 \ul \ulc0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ulnone {{\NeXTGraphic Screen Shot 2021-01-01 at 1.46.08 PM.png \width11860 \height7380 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+In above imagined C is always present with length = A+B = 2A.\
+Surprising that A alone gives a boost, but B alone doesn\'92t?\
+  And note that A is half the length of C \'97 why does it boost? Should only boost when lengths match (A=C)?\
+\
+\
+\ul Let\'92s try to more carefully test length matching concept\
+
+\f1 \ulnone \
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf2 % try to test length matching.
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %     A         B
+\fs24 \cf0 \
+
+\fs20 \cf2 %   xxxxx     xxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % p ||||| l q ||||r
+\fs24 \cf0 \
+
+\fs20 \cf2 % xxxxxxxxxxxxxxxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % |_______________|
+\fs24 \cf0 \
+
+\fs20 \cf2 %    C_eff
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % So total length = p+A+q+B+r
+\fs24 \cf0 \
+
+\fs20 \cf2 %  Fix B's length.
+\fs24 \cf0 \
+
+\fs20 \cf2 %  Scan A, and set l = B - A (to keep total loop length constant). 
+\fs24 \cf0 \
+
+\fs20 \cf2 %  Expect  a 'resonance' when A = B.
+\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 2.08.49 PM.png \width10760 \height7420 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Compare blue to red \'96 no B \'97 That makes sense. \
+Hybridizing a long long (~40 nts) to oligos of increasing length reduces C_eff for base pairing loop ends.\
+\
+Compare purple to gold.\
+Now with B (20 bp) at 3\'92 end, C_eff drops. \
+Increasing length of A does produce a resonance \'97 though it peaks around 14 bp not 20 bp.\
+\
+\
+Might get a more extreme view if we put in a 100-nt loop and set 50 bp.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 2.05.26 PM.png \width10840 \height7460 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+* Again resonance is not at A = 50 bp  to match B = 50bp, but A a few nts shorter than 50.\
+* Interesting  that there\'92s no visible oscillation from 11-bp turning\'85 Might only see that if there are sterics (not modeled here) \'97 though I expected some sort of geometric ~11-bp periodicity effect in purple curve.\
+* Note that overall jump in C-eff with B present, and binding A is 
+\f2\b only 2-fold 
+\f0\b0 at maximum of resonance.\
+\
+Is the A resonance at 40bp rather than 50 bp because p=1, q=0, r=1 forces such tight turns? \
+Run again with p = 2, q = 4, r= 2:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 2.13.26 PM.png \width10980 \height7420 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Hmm hard to say if looser linkers restores exact length match of resonance. \
+Might be interesting to vary A and B and make a heat map of the matrix.\
+
+\f1 \
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf2 %% try to test length matching.
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 %     A         B
+\fs24 \cf0 \
+
+\fs20 \cf2 %   xxxxx     xxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % p ||||| l   ||||r
+\fs24 \cf0 \
+
+\fs20 \cf2 % xxxxxxxxxxxxxxxxx
+\fs24 \cf0 \
+
+\fs20 \cf2 % |_______________|
+\fs24 \cf0 \
+
+\fs20 \cf2 %    C_eff
+\fs24 \cf0 \
+
+\fs20 \cf2 %
+\fs24 \cf0 \
+
+\fs20 \cf2 % Fix total length at L.
+\fs24 \cf0 \
+
+\fs20 \cf2 %  Scan A and B, set l so that p+A+l+B+r = L
+\fs24 \cf0 \
+
+\fs20 \cf2 %  Expect  a 'resonance' when A = B.
+\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+Up-to-20mers binding to 42-mer hairpin loop, offset by 1 and 1 from beginning and end of hairpin loop.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 2.25.53 PM.png \width7280 \height7000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 This is a nice way to read out best lengths for XOR. \
+Go to maximum (A=20,B=15). And compare to (0,15), (20,0) and (0,0). \
+Looks like dynamic range may be 0.6 (single oligo) to 1.2 (no oligo). Again, about 2-fold.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 6.46.32 PM.png \width7320 \height7000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+Let\'92s extend oligo lengths to include scenario where they bind up loop completely but break into 2 helices with mismatched lengths:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 8.26.06 PM.png \width7400 \height6940 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \
 }
