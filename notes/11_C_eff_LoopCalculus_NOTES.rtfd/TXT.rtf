@@ -1,6 +1,6 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
 \cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 Helvetica-Bold;
-}
+\f3\fswiss\fcharset0 Helvetica-Oblique;}
 {\colortbl;\red255\green255\blue255;\red2\green128\blue9;}
 {\*\expandedcolortbl;;\csgenericrgb\c784\c50196\c3529;}
 \margl1440\margr1440\vieww14140\viewh16920\viewkind0
@@ -281,5 +281,91 @@ Let\'92s extend oligo lengths to include scenario where they bind up loop comple
 \cf0 {{\NeXTGraphic Screen Shot 2021-01-01 at 8.26.06 PM.png \width7400 \height6940 \appleattachmentpadding0 \appleembedtype0 \appleaqc
 }¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
+\
+\
+Still, I expected some sort of 10-11bp periodicity. \
+\
+Run again with BB_stem1 library? That picks a single base pair step from a single helix \'97 no \'93kinks\'94 possible in helices.\
+For 42-mer loop (20bp-20bp would be length matching) \'97 maybe a 
+\f3\i hint
+\f0\i0  of undulation w.r.t. B (+/- 25%?):\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 8.35.55 AM.png \width8100 \height7380 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+And for 102-mer (50bp-50bp would be length matching), using BB_stem1 (single base pair step)\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 1.35.05 PM.png \width9360 \height8600 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Can make out the periodicity now \'97 had to 
+\f3\i freeze
+\f0\i0  helix conformation.\
+Also note that the \'91contrast\'92 is better \'97 when helices are mismatched length, C_eff really dispute down to 0.\
+\
+Now, can we find a set  of helix lengths that gives more extreme XOR behavior?\
+Look at contrast with and without B (40 bp) binding. \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 1.45.17 PM.png \width10140 \height8060 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+
+\fs20 \cf0 [C_eff_matrix(1,1), C_eff_matrix(47,1), C_eff_matrix(1,41), C_eff_matrix(47,41)]
+\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+ 1.0e-03 *\
+\
+    
+\f2\b 0.2719 
+\f0\b0    0.0040    0.0219    
+\f2\b 0.0574
+\f0\b0 \
+\
+Darn, still only a factor of 2. Issue is due to contrast with and without A \'97 see next:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 1.45.57 PM.png \width10060 \height7880 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+Visualize length matching \'97 first on small scale with 4 bp helices in a 12-mer loop:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 8.26.33 AM.png \width12820 \height10680 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Note that If we drew in the oligos hybridizing to the 4-bp stretches, these would be sterically unfeasible. Still this gives us other geometric effects.\
+\
+\
+Try to draw samples from 47bp, 41 bp binding to 102 mer hairpin \'97 kind of a fail actually \'97 circles don\'92t really close presumably due to sampling sparsity.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.03.11 PM.png \width12760 \height11080 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+Its worth noting that we can now probably simulate helix-helix tertiary docking, including A-minors \'97 if we know the arrangement of, e.g., tetraloop\'97> receptor base pairings, and create an ensemble of junctions we can do the computation for any junction type. If we use tetraloop\'97> receptor, that will also probably force more statically allowed conformations. \
+
+\f3\i \'95 Interestingly we could probably even run P4-P6 tetraloop \'97> helix docking site and look for periodicity and length matching resonances.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\i0 \cf0 \'95 Could also run adenine riboswitch length matching \'97 again, just need P2-P3 arrangement & simulation of 3WJ.\
+\'95 Cool, do those runs in 
+\f3\i next
+\f0\i0  series of experiments \'97 12_C_eff_RNA_TertiaryStructure is next!\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
 \
 }

@@ -26,6 +26,8 @@ for n = 1:size( t, 2 );
             colorcode = [0 0.4470 0.7410]; % blue/teal, default MATLAB color
             if strcmp(step_types{n},'Inline') colorcode = [1,0,0]; end;
             if strcmp(step_types{n},'BP') colorcode = [0.7,0.7,0.7]; end;
+            if strcmp(step_types{n},'BB_stem') colorcode = [0,0.5,0]; end;
+            if strcmp(step_types{n},'BB_stem1') colorcode = [0,0.8,0.2]; end;
             set(h,'color',colorcode );
         end
     end

@@ -180,12 +180,13 @@ set(gcf, 'PaperPositionMode','auto','color','white');
 % Fix total length at L.
 %  Scan A and B, set l so that p+A+l+B+r = L
 %  Expect  a 'resonance' when A = B.
-
+figure(1);
 NITER = 500;
 %L = 12; p = 1; r = 1; which_lengths = [0:1:10];
 %L = 42; p = 1; r = 1; which_lengths = [0:1:40];
 L = 102; p = 1; r = 1; which_lengths = [0:1:100];
-%C_eff_matrix = [];
+C_eff_matrix = [];
+BB_stem_type = 'BB_stem1';
 for i = 1:length(which_lengths)
     for j = 1:length(which_lengths)
         if (i <= size(C_eff_matrix,1) &  j <= size(C_eff_matrix,2) & C_eff_matrix(i,j)>0)  continue; end;
@@ -194,15 +195,44 @@ for i = 1:length(which_lengths)
         l = L-(A+B+p+r);
         if l<0; continue; end
         fprintf( 'Doing %d,%d...\n',A,B);
-        step_types = [{'BP'},repmat({'BB'},1,p),repmat({'BB_stem'     },1,A-1),repmat({'BB'},1,l+1),repmat({'BB_stem'     },1,B-1),repmat({'BB'},1,r)];
+        step_types = [{'BP'},repmat({'BB'},1,p),repmat({BB_stem_type},1,A-1),repmat({'BB'},1,l+1),repmat({BB_stem_type},1,B-1),repmat({'BB'},1,r)];
         [C_eff_matrix(i,j),C_eff_matrix_err(j,j)] = get_C_eff_overlap_halfway( step_types, TransformLibrary, NITER );
     end
 end
 
+%%
+clf
 imagesc(which_lengths,which_lengths,C_eff_matrix)
 xlabel( 'length of helix A'); 
 ylabel( 'length of helix B'); 
-title( sprintf('p-A-l-B-r. Total L=%d fixed, p = %d,  r  = %d',L,p,r ) )
+title( sprintf('p-A-l-B-r. Total L=%d fixed, p = %d,  r  = %d. BB stem type for A & B = %s',L,p,r,BB_stem_type ) )
 set(gcf, 'PaperPositionMode','auto','color','white');
 set(gca,'ydir','normal');
 colorbar;
+
+%%
+figure(3)
+semilogy( C_eff_matrix(:,[1 41]),'linew',2)
+title( sprintf('C_eff for %d-mer, p-A-l-B-r, p=%d, q=%d',L,p,q) )
+xlabel( 'Length of A');
+ylabel( 'C_eff');
+legend( 'B=0','B=40');
+
+[C_eff_matrix(1,1), C_eff_matrix(47,1), C_eff_matrix(1,41), C_eff_matrix(47,41)]
+%%
+figure(3)
+semilogy( C_eff_matrix([1 41],:)','linew',2)
+title( sprintf('C_eff for %d-mer, p-A-l-B-r, p=%d, q=%d',L,p,q) )
+xlabel( 'Length of B');
+ylabel( 'C_eff');
+legend( 'A=0','A=40');
+
+
+%% Show example trajectory to visualize closed conformation.
+figure(2);
+%A = 4; B = 4; L = 12;
+A = 47; B = 41; L = 102; % this takes forever...
+
+l = L-(A+B+p+r);
+step_types = [{'BP'},repmat({'BB'},1,p),repmat({BB_stem_type},1,A-1),repmat({'BB'},1,l+1),repmat({BB_stem_type},1,B-1),repmat({'BB'},1,r)];
+sample_motif( step_types, 1000, TransformLibrary );
