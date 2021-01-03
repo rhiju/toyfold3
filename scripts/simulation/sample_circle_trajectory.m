@@ -1,4 +1,4 @@
-function y = sample_circle_trajectory( step_types, TransformLibrary, all_pts_r );
+function y = sample_circle_trajectory( step_types, TransformLibrary, all_pts_r, PLOT_STUFF );
 % y = sample_circle_trajectory( step_types, TransformLibrary, all_pts_r );
 %
 % Sample forward trajectory, 'feeling' the effect of unbuilt links through
@@ -11,13 +11,14 @@ function y = sample_circle_trajectory( step_types, TransformLibrary, all_pts_r )
 %       [6 x NITER] points in 6D SE(3) space: x, y, z, v_x, v_y, v_z  
 %       First, second, ... arrays correpond to transforms going from
 %       *end* back 1 link, 2 links, etc.
+%  PLOT_STUFF = show trajectory (default 1)
 %
 % OUTPUT
 %  y = struct with
 %    t = [3 x N] coordinates of a random trace
 %    R = [3 x 3 x N] orthonormal frames of a random trace
 %
-
+if ~exist( 'PLOT_STUFF','var') PLOT_STUFF = 1; end;
 
 N = length(step_types);
 x = zeros(3,N); m = zeros(3,3,N);
@@ -55,10 +56,13 @@ end
 toc
 x(:,N+1) = x(:,1);
 m(:,:,N+1) = m(:,:,1);
-
-cla
 y = struct( 't',x,'R',m);
-draw_trace(y,step_types)
-hold on; 
-plot3(0,0,0,'o');
+
+if PLOT_STUFF
+    cla
+    draw_trace(y,step_types)
+    hold on;
+    plot3(0,0,0,'o');
+end
+
 

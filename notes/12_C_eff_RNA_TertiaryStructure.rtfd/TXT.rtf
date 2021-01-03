@@ -1,0 +1,136 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier-Bold;\f1\fmodern\fcharset0 Courier;\f2\fmodern\fcharset0 Courier-Oblique;
+\f3\fswiss\fcharset0 Helvetica;\f4\fswiss\fcharset0 Helvetica-Oblique;\f5\fswiss\fcharset0 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red33\green255\blue6;\red0\green0\blue255;
+}
+{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c0\c97680\c0;\cssrgb\c1680\c19835\c100000;
+}
+\margl1440\margr1440\vieww15340\viewh14320\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 12-2-2020\
+\ul We\'92re now ready to test if secondary structure alone + 6D convolutions can help us make predictions for tertiary structure
+\fs20 \
+
+\f1\b0 \ulnone \
+
+\f0\b\fs26 Question 1\
+
+\f1\b0\fs22 Adenine riboswitch:\
+
+\fs20 1y26\
+CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG\cf2 \CocoaLigature0 \
+\cf0 \CocoaLigature1 (((((((((...((((((......[[.))))))........((((((]].....))))))..)))))))))\
+\
+
+\fs24 Imagine we\'92re interactively trying to build a structure RNA with 3WJ binding pocket.\
+Suppose we know structure for L2-L3 kissing loop tertiary interaction, but not adenine binding site.\
+
+\f2\i How constrained are stem lengths of P2 and P3?\
+
+\f1\i0\fs20 \
+Just P2 and P3:\
+((((((......[[.
+\f0\b \cf3 \ul \ulc3 ))))))\cf4 \ulc4 ........\cf3 \ulc3 ((((((
+\f1\b0 \cf0 \ulnone ]].....))))))\
+                      J2/3 (8mer)\
+\
+Trying to simulate chain closure for underlined portion\
+59 \'97 40 \
+20 nucleotides.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs24 \cf0 \
+Record 59 to 40 rigid body transform to define L2/L3 kissing loop arrangement.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\fs20 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs24 \cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.23.27 PM.png \width4260 \height5580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+Sample trajectories \'97 looks OK:\
+{{\NeXTGraphic Screen Shot 2021-01-02 at 2.31.48 PM.png \width11340 \height12820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+Now use 8-mer single-nt-loop, scan helix lengths of P2 and P3, and see if there are any \'91resonances\'92  at 6-6. \
+Not really \'97 weak sense of length matching, but pretty broad maximum.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.47.14 PM.png \width9200 \height8360 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+Above is with rigid helix (single base pair step). Allow helix to flex \'97 similar though not as steep a drop off when B > A (top left):\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 3.16.51 PM.png \width8760 \height7840 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+Can we replace the 8mer with a single transform library \'91loop8mer\'92? Kind of. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 3.12.51 PM.png \width10980 \height7860 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Need to use BB_stem (full helix library), not BB_stem1 (single base pair step), or I see NaN.\
+Even then, things are a bit spiky:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 3.19.36 PM.png \width8700 \height7780 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Well, I\'92ll live with it.\
+\
+Now let\'92s sample the 8mer loop (J2/3) in context of 3WJ \'97 wrote 
+\f4\i sample_circle_trajectories()
+\f3\i0  wrapper:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 4.52.47 PM.png \width8300 \height5940 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+Now use that 8mer_3WJ for sampling:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 4.56.43 PM.png \width8540 \height7740 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+Constrains helix lengths more than free 8mer \'97e..g. stem lengths can\'92t be too small. \
+Also C_eff jumpiest from ~10 mM to ~30 mM.\
+But doesn\'92t suddenly generate a spike at 6,6 \'97 any long length is fine.\
+\
+
+\f5\b Question 2\
+
+\f3\b0 Imagine we have 
+\f4\i native
+\f3\i0  3WJ adenine binding module, and 
+\f4\i native
+\f3\i0  kissing loop tertiary interaction. Can we pick out stem lengths?\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 5.03.51 PM.png \width9960 \height7920 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f5\b \cf0 Yea!
+\f3\b0  Not bad. Note how C_eff now jumps up to >10 M.  Peak is actually for slightly smaller A and B \'97 could be interesting to check experimentally.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+Let\'92s actually expand helix lengths to scan up to 30 bp\'85 look for other length \'91resonances\'92. Actually don\'92t see any other length combos!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 5.10.35 PM.png \width9300 \height8000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+
+\f5\b Question 3. 
+\f3\b0 How about \'93tectoRNA\'94 system?\
+\
+}
