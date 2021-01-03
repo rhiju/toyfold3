@@ -28,13 +28,21 @@ pdbstruct_ade = pdbread( '../data/1y26.pdb');
 kiss_dinucleotide = struct('resnum1',59,'chain1','X','segid1','','resnum2',40,'chain2','X','segid2','');
 TransformLibrary.ade_kiss = get_transform_set( pdbstruct_ade, {kiss_dinucleotide},  {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 
+J23_dinucleotide = struct('resnum1',45,'chain1','X','segid1','','resnum2',54,'chain2','X','segid2','');
+TransformLibrary.native_j23 = get_transform_set( pdbstruct_ade, {J23_dinucleotide},  {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
+
+%% Let's get an adenine riboswitch
+pdbstruct_ade = pdbread( '../data/1y26.pdb');
+kiss_dinucleotide = struct('resnum1',59,'chain1','X','segid1','','resnum2',40,'chain2','X','segid2','');
+TransformLibrary.ade_kiss = get_transform_set( pdbstruct_ade, {kiss_dinucleotide},  {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 
 J23_dinucleotide = struct('resnum1',45,'chain1','X','segid1','','resnum2',54,'chain2','X','segid2','');
 TransformLibrary.native_j23 = get_transform_set( pdbstruct_ade, {J23_dinucleotide},  {'C5''','C4''','C3'''},{'C5''','C4''','C3'''} );
 
+%% Adenine riboswitch tests.
 %% ((((((......[[.))))))........((((((]].....))))))
 %                 |__________________|
-%                40                  59
+%                40     Kissing loop 59
 %
 step_types = [{'ade_kiss'},repmat({'BB_stem1'},1,6-1),repmat({'BB'},1,8+1),repmat({'BB_stem1'},1,6-1)];
 % circshift to make sampling easier -- final close in loop.
@@ -61,14 +69,20 @@ loop8_3WJ_traces = sample_circle_trajectories(step_types, TransformLibrary, 500)
 for i = 1:4; subplot(2,2,i); draw_trace( loop8_3WJ_traces{i}, step_types ); end;
 TransformLibrary.loop8mer_3WJ = get_transforms_from_traces(loop8_3WJ_traces,1,1+8+1);
 
+
+%% Let's get an tetraloop receptor
+pdbstruct_P4P6 = pdbread( '../data/1gid_RNAA.pdb');
+TLTR_dinucleotide = struct('resnum1',223,'chain1','A','segid1','','resnum2',154,'chain2','A','segid2','');
+TransformLibrary.TLTR = get_transform_set( pdbstruct_P4P6, {TLTR_dinucleotide},  {'C5*','C4*','C3*'},{'C5*','C4*','C3*'} );
+
 %% test length matching.
 %
 %   A         B
-% xxxxx     xxxxxx
-% |||||  8  ||||||
-% xxxxxxxxxxxxxxxx
-% |______________|
-%    C_eff
+% xxxxx        xxxxxx
+% ||||| loop   ||||||
+% xxxxxxxxxxxxxxxxxxx
+% |_________________|
+%    C_eff (tert. contact)
 %
 % Fix total length at L.
 %  Scan A and B
@@ -76,13 +90,20 @@ TransformLibrary.loop8mer_3WJ = get_transforms_from_traces(loop8_3WJ_traces,1,1+
 %  to 1y26 adenine riboswitch.
 figure(1);
 NITER = 500;
-which_lengths = [1:30];
+which_lengths = [1:10];
 C_eff_matrix = [];
 BB_stem_type = 'BB_stem';
+native_A = 6; native_B = 6;
+% Adenine kissloop <--> J2/33WJ
 %step_types_loop = repmat({'BB'},1,8+1); step_types_tert = 'ade_kiss';
 %step_types_loop = 'loop8mer'; step_types_tert = 'ade_kiss';
 %step_types_loop = 'loop8mer_3WJ'; step_types_tert = 'ade_kiss';
-step_types_loop = 'native_j23'; step_types_tert = 'ade_kiss';
+%step_types_loop = 'native_j23'; step_types_tert = 'ade_kiss';
+% mini-TLTR and tectoRNA 
+step_types_loop =  repmat({'BB'},1,8+1); step_types_tert = 'TLTR'; which_lengths = [1:20];
+step_types_loop =  'TLTR'; step_types_tert = 'TLTR'; which_lengths = [1:40]; native_A = 10; native_B = 10;
+
+
 for i = 1:length(which_lengths)
     for j = 1:length(which_lengths)
         if (i <= size(C_eff_matrix,1) &  j <= size(C_eff_matrix,2) & C_eff_matrix(i,j)>0)  continue; end;
@@ -95,15 +116,25 @@ for i = 1:length(which_lengths)
     end
 end
 
-%%
+
 clf
 imagesc(which_lengths,which_lengths,C_eff_matrix)
 xlabel( 'length of helix A'); 
 ylabel( 'length of helix B'); 
-h=title( sprintf('A-8mer-B, from L2-L3 kissing loop (ade). BB stem type = %s, loop type = %s',BB_stem_type,step_types_loop ) )
+loop_type = step_types_loop;
+if iscell(loop_type); loop_type = loop_type{1};end;
+h=title( sprintf('A-loop-B-tert. BB stem type = %s, loop type = %s',BB_stem_type,loop_type ) );
 set(h,'interp','none')
 set(gcf, 'PaperPositionMode','auto','color','white');
 set(gca,'ydir','normal');
 colorbar;
-rectangle('position',[5.5 5.5 1 1]);
+rectangle('position',[native_A-0.5 native_B-0.5 1 1]);
 
+%% TLTR plot
+figure(3)
+plot( C_eff_matrix(:,[9 10 11]),'o-','linew',2)
+xlabel( 'Length of B helix,bp')
+title( 'tectoRNA system, A = 9-11 bp');
+ylabel( 'C_{eff} (M)');
+legend( 'A = 9 bp','A = 10 bp','A = 11 bp' );
+set(gcf, 'PaperPositionMode','auto','color','white');

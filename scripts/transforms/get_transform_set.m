@@ -42,7 +42,7 @@ for n = 1:length( residue_pairs )
     j = intersect(find(resnum==respair.resnum2 & strcmp(segid, respair.segid2)), strfind(chain,respair.chain2));
     if length(i)~= 1; continue; end;
     if length(j)~= 1; continue; end;
-    count = count+1;
+    count = count + 1;
     [t(:,count),R(:,:,count)] = get_transform( ctr1(:,i), M1(:,:,i), ctr2(:,j), M2(:,:,j));
 end
 TransformSet = struct( 't',t,'R',R);

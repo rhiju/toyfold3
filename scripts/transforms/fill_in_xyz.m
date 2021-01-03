@@ -5,7 +5,6 @@ function xyz = fill_in_xyz(atom,resnum,chain,atomname, xyz );
 %    discovered so far.
 %
 % (C) R. Das, Stanford University
-
 if strcmp( atom.AtomName, atomname )
     count = find( resnum == atom.resSeq & strfind(chain,atom.chainID) );
     if ( ~isempty(count) ); 

@@ -49,17 +49,21 @@ Record 59 to 40 rigid body transform to define L2/L3 kissing loop arrangement.\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f3\fs24 \cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.23.27 PM.png \width4260 \height5580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 \
 Sample trajectories \'97 looks OK:\
-{{\NeXTGraphic Screen Shot 2021-01-02 at 2.31.48 PM.png \width11340 \height12820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.31.48 PM.png \width11340 \height12820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 \
 Now use 8-mer single-nt-loop, scan helix lengths of P2 and P3, and see if there are any \'91resonances\'92  at 6-6. \
 Not really \'97 weak sense of length matching, but pretty broad maximum.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 2.47.14 PM.png \width9200 \height8360 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \
 Above is with rigid helix (single base pair step). Allow helix to flex \'97 similar though not as steep a drop off when B > A (top left):\
 \
@@ -72,10 +76,10 @@ Above is with rigid helix (single base pair step). Allow helix to flex \'97 simi
 Can we replace the 8mer with a single transform library \'91loop8mer\'92? Kind of. \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 3.12.51 PM.png \width10980 \height7860 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}\
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 Need to use BB_stem (full helix library), not BB_stem1 (single base pair step), or I see NaN.\
+Need to use BB_stem (full helix library), not BB_stem1 (single base pair step), or I see NaN.\
 Even then, things are a bit spiky:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 3.19.36 PM.png \width8700 \height7780 \appleattachmentpadding0 \appleembedtype0 \appleaqc
@@ -103,10 +107,12 @@ Constrains helix lengths more than free 8mer \'97e..g. stem lengths can\'92t be 
 Also C_eff jumpiest from ~10 mM to ~30 mM.\
 But doesn\'92t suddenly generate a spike at 6,6 \'97 any long length is fine.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f5\b Question 2\
+\f5\b \cf0 Question 2\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f3\b0 Imagine we have 
+\f3\b0 \cf0 Imagine we have 
 \f4\i native
 \f3\i0  3WJ adenine binding module, and 
 \f4\i native
@@ -129,8 +135,62 @@ Let\'92s actually expand helix lengths to scan up to 30 bp\'85 look for other le
 \cf0 \
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f5\b Question 3. 
+\f5\b \cf0 Question 3. 
+\f3\b0 How about \'93mini-TLTR\'94 system?\
+Use a 8-mer loop to connect helices with tetraloop and receptor \'97 \
+Peak around 10,10 but diffuse.\
+Interesting peak at 6,1 \'97 not realistic but geometric peak.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 5.29.15 PM.png \width9440 \height7820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+Note C_eff is pretty small \'97 10 mM. That\'92s what typically happens with floppy linker. Good rule of thumb.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f5\b \cf0 Question 4. 
 \f3\b0 How about \'93tectoRNA\'94 system?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 TLTR to TLTR. Nailed it!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 5.34.51 PM.png \width9620 \height7900 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+C_eff = 0.3 M! \
+About 2x hit going to +/-1\
+\
+Look for other \'91resonances\'92 at longer lengths \'97 not really much out there, just the 10,10 hit.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 6.33.49 PM.png \width8960 \height8000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 6.36.57 PM.png \width9980 \height8000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 6.37.13 PM.png \width10140 \height8240 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 6.40.21 PM.png \width10280 \height8100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+Above predicts that shifting 10 bp (optimal) to 11 bp is slightly less deleterious than shifting to 9 bp, and the hit should be ~2-fold, i.e. 0.4 kcal/mol.\
+The extra peak at 21 bp is presumably due to \'91kinks\'92 that remain in the BB_stem library drawn from 4ybb Domain III.\
+\
+Compare to actual measurements in Yesselman et al. PNAS paper\'85. \
+The shift to 9-bp is actually ~ 1 kcal/mol.\
+The shift to 11-bp is actually 
+\f4\i more
+\f3\i0  deleterious (~2 kcal/mol!). \
+So quantitative details are off. \
+Probably need sequence-specific base pair step model as in Yesselman paper, careful filtering of base pair steps to prevent kinks.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2021-01-02 at 6.38.49 PM.png \width4820 \height3700 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
 \
 }
