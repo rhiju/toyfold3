@@ -12,7 +12,7 @@ _Author: Rhiju Das, 2020_
 - [ ] Test simple analytic representations of translation/rotation SE(3) distributions in tertiary closure costs, including Gaussian models and harmonic transforms.
 - [ ] Rapid simulations to test partitition function calcs -- including tertiary structure -- in MATLAB ('build a fold').
 
-![Example trace of random conformation](notes/01_ToyFold3D_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%2012.13.29%20PM.png)
+![Example trace of random conformation](notes/01_CircularBB_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%2012.13.29%20PM.png)
 
 ## Notes
 * Intended to be a port of [ToyFold 2D](https://github.com/rhiju/toyfold2_rhiju/) to the 'real world', RNA folding in three dimensions
@@ -24,6 +24,6 @@ _Author: Rhiju Das, 2020_
 * Check `notes/` for TextEdit viewable notes on current modeling status
 * Check `runs/` for example commands. First load data saved via `load 01_circularBB_test.mat`. Then check the commands in, say, `01_circularBB_test.m`, particularly the code block at the end that runs `sample_circle_trajectory`. 
 
-![Example of a circular RNA trace](notes/01_ToyFold3D_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%203.26.51%20PM.png)
+![Example of a circular RNA trace](notes/01_CircularBB_NOTES.rtfd/Screen%20Shot%202020-05-25%20at%203.26.51%20PM.png)
 
 
